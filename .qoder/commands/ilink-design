@@ -1,0 +1,70 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# FR-CMD-02: /ilink-design <story> - Trigger Designer Agent
+
+DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck source=/dev/null
+source "$DIR/_common.sh"
+
+story_required "$@"
+story="$1"
+base_dir="$(story_dir "$story")"
+
+pm_doc="$base_dir/${story}-pm.master.md"
+
+require_file "$pm_doc"
+
+# AC-3: Check PM Doc Metadata Status
+status=$(check_status "$pm_doc")
+if [[ "$status" == "STAGING" ]]; then
+  log_warn "PM document is in STAGING status, human review required"
+  echo ""
+  read -p "Continue anyway? (y/N) " -n 1 -r
+  echo
+  if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+    exit 1
+  fi
+elif [[ "$status" != "PENDING_DESIGNER" && "$status" != "PENDING_DESIGN" ]]; then
+  log_warn "PM document status is '$status', expected 'PENDING_DESIGNER' or 'PENDING_DESIGN'"
+fi
+
+log_info "Preparing Designer input for story: $story"
+
+out="$base_dir/.qoder-design-input.md"
+: > "$out"
+
+echo "# Qoder Designer Input Bundle — $story" >> "$out"
+
+# AC-1: Read project-context.md -> universal.soul.md -> design.soul.md
+write_doc_sep "$out" "project-context.md"
+if [[ -f "iLink/project-context.md" ]]; then
+  cat "iLink/project-context.md" >> "$out"
+else
+  echo "[project-context.md not found]" >> "$out"
+fi
+
+write_doc_sep "$out" "universal.soul.md"
+if [[ -f "iLink/souls/universal.soul.md" ]]; then
+  cat "iLink/souls/universal.soul.md" >> "$out"
+else
+  echo "[universal.soul.md not found]" >> "$out"
+fi
+
+write_doc_sep "$out" "design.soul.md"
+if [[ -f "iLink/souls/design.soul.md" ]]; then
+  cat "iLink/souls/design.soul.md" >> "$out"
+else
+  echo "[design.soul.md not found]" >> "$out"
+fi
+
+# AC-2: Read upstream pm.master.md
+write_doc_sep "$out" "${story}-pm.master.md"
+cat "$pm_doc" >> "$out"
+
+echo ""
+log_info "Designer input prepared: $out"
+echo ""
+echo "现在可以在对话中执行: /ilink-design $story"
+echo ""
+echo "提示: Designer 将输出 ${story}-design.master.md，Status 将为 STAGING（需人工审核）"

@@ -1,0 +1,116 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# FR-CMD-03: /ilink-coder <story> - Trigger Coder Agent
+
+DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck source=/dev/null
+source "$DIR/_common.sh"
+
+story_required "$@"
+story="$1"
+base_dir="$(story_dir "$story")"
+
+design_doc="$base_dir/${story}-design.master.md"
+review_doc="$base_dir/${story}-review.master.md"
+
+require_file "$design_doc"
+
+# Check status
+status=$(check_status "$design_doc")
+if [[ "$status" == "STAGING" ]]; then
+  log_warn "Design document is in STAGING status, human review required before coding"
+  echo ""
+  read -p "Continue anyway? (y/N) " -n 1 -r
+  echo
+  if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+    exit 1
+  fi
+elif [[ "$status" != "PENDING_CODER" ]]; then
+  log_warn "Design document status is '$status', expected 'PENDING_CODER' or 'STAGING'"
+fi
+
+# AC-5: Detect reflux mode
+reflux_mode=false
+if is_reflux_mode "$base_dir" "$story"; then
+  reflux_mode=true
+  log_info "Reflux mode detected: review.master.md exists with FAIL_BACK_TO_CODER"
+  increment_retry_count "$base_dir"
+fi
+
+log_info "Preparing Coder input for story: $story"
+
+out="$base_dir/.qoder-coder-input.md"
+: > "$out"
+
+echo "# Qoder Coder Input Bundle — $story" >> "$out"
+
+# AC-1: Read project-context.md -> universal.soul.md -> coder.soul.md
+write_doc_sep "$out" "project-context.md"
+if [[ -f "iLink/project-context.md" ]]; then
+  cat "iLink/project-context.md" >> "$out"
+else
+  echo "[project-context.md not found]" >> "$out"
+fi
+
+write_doc_sep "$out" "universal.soul.md"
+if [[ -f "iLink/souls/universal.soul.md" ]]; then
+  cat "iLink/souls/universal.soul.md" >> "$out"
+else
+  echo "[universal.soul.md not found]" >> "$out"
+fi
+
+write_doc_sep "$out" "coder.soul.md"
+if [[ -f "iLink/souls/coder.soul.md" ]]; then
+  cat "iLink/souls/coder.soul.md" >> "$out"
+else
+  echo "[coder.soul.md not found]" >> "$out"
+fi
+
+# AC-2: Read upstream design.master.md
+write_doc_sep "$out" "${story}-design.master.md"
+cat "$design_doc" >> "$out"
+
+# AC-3: Extract file paths from TASK_ALLOCATION section
+if grep -q "\[TASK_ALLOCATION\]" "$design_doc"; then
+  write_doc_sep "$out" "Target Source Files"
+  echo "The following files need to be read:" >> "$out"
+  echo "" >> "$out"
+
+  # Extract file paths from TASK_ALLOCATION (using _common.sh utility)
+  paths=$(extract_task_allocation_paths "$design_doc" 2>/dev/null || true)
+  if [[ -n "$paths" ]]; then
+    while IFS= read -r f; do
+      if ! is_path_safe "$f"; then
+        echo "- $f (UNSAFE PATH - skipped)" >> "$out"
+        continue
+      fi
+      if [[ -f "$f" ]]; then
+        echo "- $f (exists)" >> "$out"
+      else
+        echo "- $f (to be created)" >> "$out"
+      fi
+    done <<< "$paths"
+  fi
+fi
+
+# AC-5: If reflux mode, include FIX_REQUESTS from review.master.md
+if [[ "$reflux_mode" == true && -f "$review_doc" ]]; then
+  write_doc_sep "$out" "FIX_REQUESTS (from review.master.md)"
+  echo "Please address the following issues:" >> "$out"
+  echo "" >> "$out"
+  if grep -q "\[FIX_REQUESTS\]" "$review_doc"; then
+    awk '/\[FIX_REQUESTS\]/,/\[UPSTREAM_BLOCKERS\]/' "$review_doc" | head -n -1 >> "$out"
+  fi
+fi
+
+echo ""
+log_info "Coder input prepared: $out"
+if [[ "$reflux_mode" == true ]]; then
+  retry_count=$(get_retry_count "$base_dir")
+  log_info "Reflux attempt: $retry_count"
+fi
+echo ""
+echo "现在可以在对话中执行: /ilink-coder $story"
+echo ""
+echo "提示: Coder 将直接修改代码文件并输出 ${story}-code.master.md"

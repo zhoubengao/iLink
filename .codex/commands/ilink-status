@@ -1,0 +1,185 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# FR-BSH-02: ilink-status [story] - View pipeline status
+# FR-OBS-01: ilink-status dashboard
+# FR-FB-02:熔断 detection
+
+DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck source=/dev/null
+source "$DIR/_common.sh"
+
+if [[ $# -lt 1 || -z "${1}" ]]; then
+  echo ""
+  echo "iLink - Story 列表"
+  echo ""
+
+  if [[ ! -d "iLink-doc" ]]; then
+    log_error "iLink-doc directory not found"
+    exit 1
+  fi
+
+  found=false
+  echo "| Story | 当前阶段 | 状态 |"
+  echo "|-------|---------|------|"
+
+  for story_dir in iLink-doc/*/; do
+    if [[ -d "$story_dir" ]]; then
+      story=$(basename "$story_dir")
+      base_dir="iLink-doc/$story"
+
+      stage="初始化"
+      status="-"
+
+      if [[ -f "$base_dir/${story}-review.master.md" ]]; then
+        status=$(check_status "$base_dir/${story}-review.master.md")
+        if [[ "$status" == "COMPLETED" ]]; then
+          stage="已完成"
+        elif [[ "$status" == "FAIL_BACK_TO_CODER" ]]; then
+          stage="QA回流"
+        elif [[ "$status" == "STAGING" ]]; then
+          stage="QA(上游问题)"
+        else
+          stage="QA审查中"
+        fi
+      elif [[ -f "$base_dir/${story}-code.master.md" ]]; then
+        status=$(check_status "$base_dir/${story}-code.master.md")
+        stage="编码完成"
+      elif [[ -f "$base_dir/${story}-design.master.md" ]]; then
+        status=$(check_status "$base_dir/${story}-design.master.md")
+        if [[ "$status" == "STAGING" ]]; then
+          stage="设计待审核"
+        else
+          stage="设计完成"
+        fi
+      elif [[ -f "$base_dir/${story}-pm.master.md" ]]; then
+        status=$(check_status "$base_dir/${story}-pm.master.md")
+        stage="PM完成"
+      elif [[ -f "$base_dir/${story}-需求定义.md" ]]; then
+        stage="需求定义"
+      fi
+
+      echo "| $story | $stage | $status |"
+      found=true
+    fi
+  done
+
+  if [[ "$found" == false ]]; then
+    echo "| (无 Story) | - | - |"
+  fi
+
+  echo ""
+  echo "使用: ilink-status <story> 查看详细状态"
+  exit 0
+fi
+
+story="$1"
+base_dir="$(story_dir "$story")"
+
+echo ""
+echo "Story: $story"
+echo ""
+
+if [[ ! -d "$base_dir" ]]; then
+  log_error "Story directory not found: $base_dir"
+  exit 1
+fi
+
+retry_count=$(get_retry_count "$base_dir")
+if [[ "$retry_count" -gt 0 ]]; then
+  echo "回流次数: $retry_count"
+  echo ""
+fi
+
+echo "文档状态："
+echo "| 文档 | 状态 |"
+echo "|------|------|"
+
+for doc in "${story}-需求定义.md" "${story}-pm.master.md" "${story}-design.master.md" "${story}-code.master.md" "${story}-review.master.md"; do
+  doc_path="$base_dir/$doc"
+  if [[ -f "$doc_path" ]]; then
+    status=$(check_status "$doc_path")
+    echo "| $doc | $status |"
+  else
+    echo "| $doc | ❌ 不存在 |"
+  fi
+done
+
+echo ""
+
+if [[ "$retry_count" -ge 3 ]]; then
+  echo "🛑 熔断警告: Coder 已自动修复 3 次仍未通过 QA，请人类介入"
+  echo ""
+  echo "建议操作："
+  echo "1. 直接在 CLI 对话中与 Coder 讨论修复"
+  echo "2. 手动修改代码"
+  echo "3. 或执行 ilink-init 重新初始化 Story"
+  exit 0
+fi
+
+if [[ -f "$base_dir/${story}-review.master.md" ]]; then
+  status=$(check_status "$base_dir/${story}-review.master.md")
+  if [[ "$status" == "COMPLETED" ]]; then
+    echo "✅ Story $story 已完成"
+    echo ""
+    echo "建议操作："
+    echo "1. 执行 git add + git commit 或 svn commit 提交代码"
+    echo "2. 删除 .retry_count 信号文件（如存在）"
+  elif [[ "$status" == "FAIL_BACK_TO_CODER" ]]; then
+    echo "当前阶段: QA 审查未通过，需要回流修复"
+    echo ""
+    echo "下一步: 执行 ilink-coder $story 进行修复"
+    echo ""
+    echo "FIX_REQUESTS 摘要："
+    if grep -q "\[FIX_REQUESTS\]" "$base_dir/${story}-review.master.md"; then
+      awk '/\[FIX_REQUESTS\]/,/\[UPSTREAM_BLOCKERS\]/' "$base_dir/${story}-review.master.md" | head -20
+    else
+      echo "  (未找到 FIX_REQUESTS 区块)"
+    fi
+  elif [[ "$status" == "STAGING" ]]; then
+    echo "当前阶段: QA 发现上游问题，需人类介入"
+    echo ""
+    echo "UPSTREAM_BLOCKERS 摘要："
+    if grep -q "\[UPSTREAM_BLOCKERS\]" "$base_dir/${story}-review.master.md"; then
+      awk '/\[UPSTREAM_BLOCKERS\]/,/\[NON_BLOCKING_NOTES\]/' "$base_dir/${story}-review.master.md" | head -20
+    else
+      echo "  (未找到 UPSTREAM_BLOCKERS 区块)"
+    fi
+  fi
+elif [[ -f "$base_dir/${story}-code.master.md" ]]; then
+  echo "当前阶段: Coder 编码完成"
+  echo "下一步: 执行 ilink-qa $story"
+elif [[ -f "$base_dir/${story}-design.master.md" ]]; then
+  status=$(check_status "$base_dir/${story}-design.master.md")
+  if [[ "$status" == "STAGING" ]]; then
+    echo "当前阶段: Designer 设计完成，等待人工审核"
+    echo ""
+    echo "下一步："
+    echo "1. 审核 design.master.md"
+    echo "2. 执行 ilink-approve $story 推进状态"
+    echo "3. 然后执行 ilink-coder $story"
+  else
+    echo "当前阶段: Designer 设计完成，状态: $status"
+    echo "下一步: 执行 ilink-coder $story"
+  fi
+elif [[ -f "$base_dir/${story}-pm.master.md" ]]; then
+  status=$(check_status "$base_dir/${story}-pm.master.md")
+  if [[ "$status" == "STAGING" ]]; then
+    echo "当前阶段: PM 需求分析完成，发现 H 级风险需人工确认"
+    echo "下一步："
+    echo "1. 审核 pm.master.md"
+    echo "2. 执行 ilink-approve $story 推进状态"
+    echo "3. 然后执行 ilink-design $story"
+  else
+    echo "当前阶段: PM 需求分析完成"
+    echo "下一步: 执行 ilink-design $story"
+  fi
+elif [[ -f "$base_dir/${story}-需求定义.md" ]]; then
+  echo "当前阶段: 需求定义已创建"
+  echo "下一步: 执行 ilink-pm $story"
+else
+  echo "当前阶段: Story 未初始化"
+  echo "下一步: 执行 ilink-init $story"
+fi
+
+echo ""

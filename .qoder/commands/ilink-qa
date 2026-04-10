@@ -1,0 +1,118 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# FR-CMD-04: /ilink-qa <story> - Trigger QA Agent
+
+DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck source=/dev/null
+source "$DIR/_common.sh"
+
+story_required "$@"
+story="$1"
+base_dir="$(story_dir "$story")"
+
+code_doc="$base_dir/${story}-code.master.md"
+design_doc="$base_dir/${story}-design.master.md"
+pm_doc="$base_dir/${story}-pm.master.md"
+
+require_file "$code_doc"
+require_file "$design_doc"
+require_file "$pm_doc"
+
+# Check status
+status=$(check_status "$code_doc")
+if [[ "$status" != "PENDING_QA" ]]; then
+  log_warn "Code document status is '$status', expected 'PENDING_QA'"
+fi
+
+# Extract Target_Files from code.master.md
+target_files=$(extract_metadata "$code_doc" "Target_Files")
+
+log_info "Preparing QA input for story: $story"
+
+# Validate target files
+missing=0
+unsafe=0
+out_of_scope=0
+
+# Whitelist from design TASK_ALLOCATION
+whitelist=$(extract_task_allocation_paths "$design_doc" 2>/dev/null || true)
+
+if [[ -n "$target_files" ]]; then
+  echo "$target_files" | tr ',' '\n' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//' | sed '/^$/d' | while read -r f; do
+    if [[ ! -f "$f" ]]; then
+      log_error "Missing Target_File: $f"
+      echo "FAIL" > /tmp/.ilink-qa-check-$$
+    fi
+    if ! is_path_safe "$f"; then
+      log_error "Unsafe path: $f"
+      echo "FAIL" > /tmp/.ilink-qa-check-$$
+    fi
+    if [[ -n "$whitelist" ]]; then
+      if ! echo "$whitelist" | grep -Fxq "$f"; then
+        log_error "Out of scope Target_File (not in TASK_ALLOCATION): $f"
+        echo "FAIL" > /tmp/.ilink-qa-check-$$
+      fi
+    fi
+  done
+fi
+
+if [[ -f /tmp/.ilink-qa-check-$$ ]]; then
+  rm -f /tmp/.ilink-qa-check-$$
+  log_error "QA precheck failed"
+  exit 4
+fi
+
+out="$base_dir/.qoder-qa-input.md"
+: > "$out"
+
+echo "# Qoder QA Input Bundle — $story" >> "$out"
+
+# AC-1: Read project-context.md -> universal.soul.md -> qa.soul.md
+write_doc_sep "$out" "project-context.md"
+if [[ -f "iLink/project-context.md" ]]; then
+  cat "iLink/project-context.md" >> "$out"
+else
+  echo "[project-context.md not found]" >> "$out"
+fi
+
+write_doc_sep "$out" "universal.soul.md"
+if [[ -f "iLink/souls/universal.soul.md" ]]; then
+  cat "iLink/souls/universal.soul.md" >> "$out"
+else
+  echo "[universal.soul.md not found]" >> "$out"
+fi
+
+write_doc_sep "$out" "qa.soul.md"
+if [[ -f "iLink/souls/qa.soul.md" ]]; then
+  cat "iLink/souls/qa.soul.md" >> "$out"
+else
+  echo "[qa.soul.md not found]" >> "$out"
+fi
+
+# AC-2: Read code.master.md + design.master.md + pm.master.md
+write_doc_sep "$out" "${story}-code.master.md"
+cat "$code_doc" >> "$out"
+
+write_doc_sep "$out" "${story}-design.master.md"
+cat "$design_doc" >> "$out"
+
+write_doc_sep "$out" "${story}-pm.master.md"
+cat "$pm_doc" >> "$out"
+
+# AC-3: List target files from code.master.md
+if [[ -n "$target_files" ]]; then
+  write_doc_sep "$out" "Target Source Files"
+  echo "$target_files" | tr ',' '\n' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//' | sed '/^$/d' | while read -r f; do
+    if [[ -f "$f" ]]; then
+      echo "- $f" >> "$out"
+    fi
+  done
+fi
+
+echo ""
+log_info "QA input prepared: $out"
+echo ""
+echo "现在可以在对话中执行: /ilink-qa $story"
+echo ""
+echo "提示: QA 将输出 ${story}-review.master.md，结论为 COMPLETED / FAIL_BACK_TO_CODER / STAGING"
