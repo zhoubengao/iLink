@@ -141,6 +141,7 @@ Status: STAGING
 3. 只写 [TASK_ALLOCATION] 授权的文件
 4. 遵守 project-context.md 中定义的编码规范和技术约束
 5. 修改现有文件时保持风格一致，不改动无关代码
+6. 在每个新增或修改的方法上方添加变更标注注释（见 Coder Soul §5.6），格式：`// [story-id] Codex | <timestamp> | <简要描述>`；回流时追加新行，不覆盖原有注释
 
 #### 回流修复
 1. 逐条处理 [FIX_REQUESTS] 中的 Issue-ID
@@ -149,7 +150,7 @@ Status: STAGING
 
 ### 输出变更摘要
 - 写入 `iLink-doc/<story>/<story>-code.master.md`
-- 包含：变更清单、接口变更、数据库变更、事务策略、依赖变更、关键实现说明
+- 包含：变更清单（含**变更统计**子表：每文件新增行/修改行/删除行及合计；回流时仅统计本次改动量）、接口变更、数据库变更、事务策略、依赖变更、关键实现说明
 - [REVIEW_HANDOFF]、[DEVIATIONS]、[FIX_RESPONSE]（回流时）
 
 ### Metadata
