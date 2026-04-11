@@ -29,41 +29,6 @@ elif [[ "$status" != "PENDING_DESIGNER" && "$status" != "PENDING_DESIGN" ]]; the
   log_warn "PM document status is '$status', expected 'PENDING_DESIGNER' or 'PENDING_DESIGN'"
 fi
 
-log_info "Preparing Designer input for story: $story"
-
-out="$base_dir/.qoder-design-input.md"
-: > "$out"
-
-echo "# Qoder Designer Input Bundle — $story" >> "$out"
-
-# AC-1: Read project-context.md -> universal.soul.md -> design.soul.md
-write_doc_sep "$out" "project-context.md"
-if [[ -f "project-context.md" ]]; then
-  cat "project-context.md" >> "$out"
-else
-  echo "[project-context.md not found]" >> "$out"
-fi
-
-write_doc_sep "$out" "universal.soul.md"
-if [[ -f "iLink/souls/universal.soul.md" ]]; then
-  cat "iLink/souls/universal.soul.md" >> "$out"
-else
-  echo "[universal.soul.md not found]" >> "$out"
-fi
-
-write_doc_sep "$out" "design.soul.md"
-if [[ -f "iLink/souls/design.soul.md" ]]; then
-  cat "iLink/souls/design.soul.md" >> "$out"
-else
-  echo "[design.soul.md not found]" >> "$out"
-fi
-
-# AC-2: Read upstream pm.master.md
-write_doc_sep "$out" "${story}-pm.master.md"
-cat "$pm_doc" >> "$out"
-
-echo ""
-log_info "Designer input prepared: $out"
 echo ""
 echo "现在可以在对话中执行: /ilink-design $story"
 echo ""

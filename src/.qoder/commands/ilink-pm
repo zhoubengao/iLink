@@ -15,41 +15,6 @@ req_doc="$base_dir/${story}-需求定义.md"
 
 require_file "$req_doc"
 
-log_info "Preparing PM input for story: $story"
-
-out="$base_dir/.qoder-pm-input.md"
-: > "$out"
-
-echo "# Qoder PM Input Bundle — $story" >> "$out"
-
-# AC-1: Read project-context.md -> universal.soul.md -> pm.soul.md
-write_doc_sep "$out" "project-context.md"
-if [[ -f "project-context.md" ]]; then
-  cat "project-context.md" >> "$out"
-else
-  echo "[project-context.md not found]" >> "$out"
-fi
-
-write_doc_sep "$out" "universal.soul.md"
-if [[ -f "iLink/souls/universal.soul.md" ]]; then
-  cat "iLink/souls/universal.soul.md" >> "$out"
-else
-  echo "[universal.soul.md not found]" >> "$out"
-fi
-
-write_doc_sep "$out" "pm.soul.md"
-if [[ -f "iLink/souls/pm.soul.md" ]]; then
-  cat "iLink/souls/pm.soul.md" >> "$out"
-else
-  echo "[pm.soul.md not found]" >> "$out"
-fi
-
-# AC-2: Read <story>-需求定义.md as user input
-write_doc_sep "$out" "${story}-需求定义.md"
-cat "$req_doc" >> "$out"
-
-echo ""
-log_info "PM input prepared: $out"
 echo ""
 echo "现在可以在对话中执行: /ilink-pm $story"
 echo ""
