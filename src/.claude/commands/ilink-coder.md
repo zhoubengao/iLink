@@ -66,16 +66,16 @@
 # ILINK-PROTOCOL-METADATA
 Protocol_Version: v1.0.00
 Role: CODER
-AI_Vendor: <你的 AI 厂商>
-AI_Model: <你的模型标识>
-Current_Timestamp: <RFC3339 格式，由脚本注入>
-Normalized_Source_Hash: <由脚本注入>
+AI_Vendor: Claude
+AI_Model: <你的实际模型 ID，如 claude-sonnet-4-6>
+Current_Timestamp: <执行 date -u +%Y-%m-%dT%H:%M:%S+00:00 获取实际时间>
+Normalized_Source_Hash: <执行 shasum iLink-doc/$ARGUMENTS/$ARGUMENTS-design.master.md 取第一列>
 Target_Files: <修改的文件列表，逗号分隔>
 Status: PENDING_QA
 ---
 ```
 
-> 注：`Current_Timestamp` 和 `Normalized_Source_Hash` 由 `ilink-inject-metadata` 脚本注入（位于 `.codex/commands/` 或 `.qoder/commands/`）。Claude 平台可在完成后手动运行该脚本，或跳过——这两个字段不影响流水线推进。
+> 提示：在输出 Metadata 区块前，先通过 Bash 工具执行 `date -u +%Y-%m-%dT%H:%M:%S+00:00` 和 `shasum iLink-doc/$ARGUMENTS/$ARGUMENTS-design.master.md` 获取真实值后填入，不得留占位符。
 
 ## 完成后
 

@@ -228,6 +228,8 @@
 | 存在 Root_Cause_Layer=CODER 的 Blocking Issue | `FAIL_BACK_TO_CODER` |
 | 所有 Blocking Issue 均为 DESIGNER/UPSTREAM 根因 | `STAGING` |
 
+> **STAGING 解除**：输出 STAGING 后，人类可通过 `/ilink-refine <story>` 与 AI 讨论 [UPSTREAM_BLOCKERS] 中的根因，明确修改路径（通常需修改 design.master.md 或需求定义），再决定是否重跑上游角色。
+
 ### 决策优先级
 
 1. 只要存在**任何一个** CODER 根因的 Blocking Issue → `FAIL_BACK_TO_CODER`（即使同时有 UPSTREAM 根因的问题）

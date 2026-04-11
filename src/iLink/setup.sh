@@ -61,13 +61,10 @@ for cmd in bash awk sed grep tr cut sort basename; do
     missing=$((missing + 1))
   fi
 done
-# md5sum or md5 (platform specific)
-if command -v md5sum &>/dev/null; then
-  echo "  ✓ md5sum"
-elif command -v md5 &>/dev/null; then
-  echo "  ✓ md5 (macOS, md5sum 兼容)"
+if command -v shasum &>/dev/null; then
+  echo "  ✓ shasum"
 else
-  echo "  ✗ md5sum/md5 未找到"
+  echo "  ✗ shasum 未找到"
   missing=$((missing + 1))
 fi
 

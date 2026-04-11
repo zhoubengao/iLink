@@ -27,6 +27,9 @@
 - `ilink-design`
 - `ilink-coder`
 - `ilink-qa`
+- `ilink-refine`
+- `ilink-approve`
+- `ilink-status`
 
 缺失时给出警告（不阻塞，因为可能使用其他平台）。
 

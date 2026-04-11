@@ -27,6 +27,9 @@
 - `ilink-design.md`
 - `ilink-coder.md`
 - `ilink-qa.md`
+- `ilink-refine.md`
+- `ilink-approve.md`
+- `ilink-status.md`
 
 缺失时给出警告（不阻塞，因为可能使用其他平台）。
 

@@ -47,7 +47,6 @@ command_files=(
   "ilink-init"
   "ilink-approve"
   "ilink-status"
-  "ilink-inject-metadata"
 )
 
 missing_commands=0

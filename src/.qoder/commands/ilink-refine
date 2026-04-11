@@ -1,0 +1,112 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# FR-CMD-05: /ilink-refine <story> - Prepare context for STAGING refinement dialog
+
+DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck source=/dev/null
+source "$DIR/_common.sh"
+
+story_required "$@"
+story="$1"
+base_dir="$(story_dir "$story")"
+
+if [[ ! -d "$base_dir" ]]; then
+  log_error "Story directory not found: $base_dir"
+  exit 1
+fi
+
+# Find STAGING document (priority: review > design > pm)
+staging_doc=""
+staging_role=""
+
+if [[ -f "$base_dir/${story}-review.master.md" ]]; then
+  status=$(check_status "$base_dir/${story}-review.master.md")
+  if [[ "$status" == "STAGING" ]]; then
+    staging_doc="$base_dir/${story}-review.master.md"
+    staging_role="qa"
+  fi
+fi
+
+if [[ -z "$staging_doc" && -f "$base_dir/${story}-design.master.md" ]]; then
+  status=$(check_status "$base_dir/${story}-design.master.md")
+  if [[ "$status" == "STAGING" ]]; then
+    staging_doc="$base_dir/${story}-design.master.md"
+    staging_role="design"
+  fi
+fi
+
+if [[ -z "$staging_doc" && -f "$base_dir/${story}-pm.master.md" ]]; then
+  status=$(check_status "$base_dir/${story}-pm.master.md")
+  if [[ "$status" == "STAGING" ]]; then
+    staging_doc="$base_dir/${story}-pm.master.md"
+    staging_role="pm"
+  fi
+fi
+
+if [[ -z "$staging_doc" ]]; then
+  log_error "No document in STAGING status found for story '$story'"
+  echo ""
+  echo "当前状态："
+  "$DIR/ilink-status" "$story"
+  exit 1
+fi
+
+log_info "Found STAGING document: $(basename "$staging_doc") (role: $staging_role)"
+
+out="$base_dir/.qoder-refine-input.md"
+: > "$out"
+
+echo "# Qoder Refine Input Bundle — $story" >> "$out"
+echo "" >> "$out"
+echo "> STAGING 文档：$(basename "$staging_doc")" >> "$out"
+echo "> 角色：$staging_role" >> "$out"
+
+# Read project-context.md
+write_doc_sep "$out" "project-context.md"
+if [[ -f "project-context.md" ]]; then
+  cat "project-context.md" >> "$out"
+else
+  echo "[project-context.md not found]" >> "$out"
+fi
+
+# Read universal.soul.md
+write_doc_sep "$out" "universal.soul.md"
+if [[ -f "iLink/souls/universal.soul.md" ]]; then
+  cat "iLink/souls/universal.soul.md" >> "$out"
+else
+  echo "[universal.soul.md not found]" >> "$out"
+fi
+
+# Read role-specific soul file
+soul_file="iLink/souls/${staging_role}.soul.md"
+write_doc_sep "$out" "${staging_role}.soul.md"
+if [[ -f "$soul_file" ]]; then
+  cat "$soul_file" >> "$out"
+else
+  echo "[${staging_role}.soul.md not found]" >> "$out"
+fi
+
+# Read Root Spec §6.3 (ilink-refine protocol) - full spec for now
+write_doc_sep "$out" "iLink-root-spec-v1.0.00.md (§6.3 refine protocol)"
+if [[ -f "iLink/iLink-root-spec-v1.0.00.md" ]]; then
+  # Extract lines around §6.3 (ilink-refine section)
+  awk '/^### 6\.3 ilink-refine/,/^### 6\.[4-9]/' \
+    "iLink/iLink-root-spec-v1.0.00.md" >> "$out" 2>/dev/null || \
+    cat "iLink/iLink-root-spec-v1.0.00.md" >> "$out"
+else
+  echo "[iLink-root-spec-v1.0.00.md not found]" >> "$out"
+fi
+
+# Read the STAGING document itself
+write_doc_sep "$out" "$(basename "$staging_doc") [STAGING — 待修订]"
+cat "$staging_doc" >> "$out"
+
+echo ""
+log_info "Refine input prepared: $out"
+echo ""
+echo "现在可以在对话中执行: /ilink-refine $story"
+echo ""
+echo "提示: AI 将进入修订模式，逐条处理 [待确认] 阻塞项"
+echo "      修订完成后若所有 H 级阻塞消解，Status 将升为 PENDING_xxx"
+echo "      然后执行 bash .qoder/commands/ilink-approve $story 正式推进"

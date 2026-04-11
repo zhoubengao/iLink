@@ -159,6 +159,8 @@ NOTIFY_ITEMS:
 | 存在 H 级 `[PM推导]` 或 `[待确认]` 条目 | `STAGING` |
 | 需求定义存在逻辑矛盾无法自行解决 | `STAGING` |
 
+> **STAGING 解除**：输出 STAGING 后，人类可通过 `/ilink-refine <story>` 与 AI 逐条确认 `[待确认]` 项，AI 将决策记录为 `[已确认 YYYY-MM-DD: <依据>]` 并更新 NOTIFY_ITEMS；所有 H 级项消解后 Status 自动升为 `PENDING_DESIGNER`。
+
 ---
 
 ## 6. 调度通知规则
