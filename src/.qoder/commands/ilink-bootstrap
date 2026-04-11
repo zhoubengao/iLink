@@ -15,7 +15,7 @@ echo ""
 log_info "Step 1: Checking iLink framework files..."
 
 framework_files=(
-  "iLink/iLink-root-spec-v1.0.00.md"
+  "iLink/iLink-root-spec.md"
   "iLink/souls/universal.soul.md"
   "iLink/souls/pm.soul.md"
   "iLink/souls/design.soul.md"

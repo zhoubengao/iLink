@@ -88,14 +88,14 @@ else
 fi
 
 # Read Root Spec §6.3 (ilink-refine protocol) - full spec for now
-write_doc_sep "$out" "iLink-root-spec-v1.0.00.md (§6.3 refine protocol)"
-if [[ -f "iLink/iLink-root-spec-v1.0.00.md" ]]; then
+write_doc_sep "$out" "iLink-root-spec.md (§6.3 refine protocol)"
+if [[ -f "iLink/iLink-root-spec.md" ]]; then
   # Extract lines around §6.3 (ilink-refine section)
   awk '/^### 6\.3 ilink-refine/,/^### 6\.[4-9]/' \
-    "iLink/iLink-root-spec-v1.0.00.md" >> "$out" 2>/dev/null || \
-    cat "iLink/iLink-root-spec-v1.0.00.md" >> "$out"
+    "iLink/iLink-root-spec.md" >> "$out" 2>/dev/null || \
+    cat "iLink/iLink-root-spec.md" >> "$out"
 else
-  echo "[iLink-root-spec-v1.0.00.md not found]" >> "$out"
+  echo "[iLink-root-spec.md not found]" >> "$out"
 fi
 
 # Read the STAGING document itself

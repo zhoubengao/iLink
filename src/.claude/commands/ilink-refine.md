@@ -5,7 +5,7 @@
 依次读取以下文件：
 1. `project-context.md`
 2. `iLink/souls/universal.soul.md`
-3. `iLink/iLink-root-spec-v1.0.00.md` §6.3（ilink-refine 修订协议）
+3. `iLink/iLink-root-spec.md` §6.3（ilink-refine 修订协议）
 
 ## 步骤 1：确认 Story 存在
 

@@ -1,15 +1,15 @@
 # iLink Root Spec
 
 > **文档编号**: ILINK-ROOT-SPEC
-> **版本**: v1.0.00
+> **版本**: v1.1.00
 > **作者**: 周本高
 > **日期**: 2026-04-09
 > **文档类型**: 协议规范（Protocol Specification）
-> **状态**: 草案
+> **状态**: 正式发布
 >
 > **规范性语言**：本文档使用 MUST / SHALL / SHALL NOT / SHOULD / MAY 表达约束级别，含义遵循 RFC 2119。
 >
-> **配套文档**：实施手册（Bootstrap、脚手架规范、入口文件模板）请参阅 `iLink-implementation-guide-v1.0.00.md`。
+> **配套文档**：实施手册（Bootstrap、脚手架规范、入口文件模板）请参阅 `iLink-implementation-guide.md`。
 >
 > **文档定位**：本文档定义 iLink 系统的**核心协议**——AI 必须遵守的状态机、角色契约、字段语义、冲突规则。实施手册是**达成本规范的具体路径**——如何启动项目、如何配置脚手架、如何执行 Bootstrap。**本文档是目标，实施手册是实现方法。**
 
@@ -539,7 +539,7 @@ MUST 包含以下章节：
 ```
 ---
 # ILINK-PROTOCOL-METADATA
-Protocol_Version: v1.0.00
+Protocol_Version: v1.1.00
 Role: <PM / DESIGNER / CODER / QA>
 AI_Vendor: <执行本角色的 Host CLI 品牌名，如 Claude / Qoder / Codex>
 AI_Model: <工具版本或底层模型；若 Host CLI 允许披露则填底层模型（如 claude-sonnet-4-6），否则填工具版本号>
@@ -757,8 +757,8 @@ iLink 的每个角色 MUST 由人类手动触发：
 ├── project-context.md                  ← 项目知识库（与入口文件同级）
 ├── CLAUDE.md / AGENTS.md               ← 入口路由文件（薄路由模式）
 ├── iLink/                              ← 框架资产（版本控制）
-│   ├── iLink-root-spec-v1.0.00.md         ← 本文档（根规范）
-│   ├── iLink-implementation-guide-v1.0.00.md ← 实施手册
+│   ├── iLink-root-spec.md         ← 本文档（根规范）
+│   ├── iLink-implementation-guide.md ← 实施手册
 │   ├── setup.sh                        ← 环境初始化脚本
 │   └── souls/                          ← 角色规范
 │       ├── universal.soul.md
@@ -974,7 +974,7 @@ Story 隔离**不保证**：
 
 ---
 # ILINK-PROTOCOL-METADATA
-Protocol_Version: v1.0.00
+Protocol_Version: v1.1.00
 Role: PM
 AI_Vendor: <Host CLI 品牌名，如 Claude / Qoder / Codex>
 AI_Model: <工具版本或底层模型 ID>
@@ -1027,7 +1027,7 @@ Status: PENDING_DESIGNER
 
 ---
 # ILINK-PROTOCOL-METADATA
-Protocol_Version: v1.0.00
+Protocol_Version: v1.1.00
 Role: DESIGNER
 AI_Vendor: <Host CLI 品牌名，如 Claude / Qoder / Codex>
 AI_Model: <工具版本或底层模型 ID>
@@ -1063,7 +1063,7 @@ Status: STAGING
 
 ---
 # ILINK-PROTOCOL-METADATA
-Protocol_Version: v1.0.00
+Protocol_Version: v1.1.00
 Role: CODER
 AI_Vendor: <Host CLI 品牌名，如 Claude / Qoder / Codex>
 AI_Model: <工具版本或底层模型 ID>
@@ -1099,7 +1099,7 @@ Status: PENDING_QA
 
 ---
 # ILINK-PROTOCOL-METADATA
-Protocol_Version: v1.0.00
+Protocol_Version: v1.1.00
 Role: QA
 AI_Vendor: <Host CLI 品牌名，如 Claude / Qoder / Codex>
 AI_Model: <工具版本或底层模型 ID>
@@ -1117,7 +1117,7 @@ Status: COMPLETED
 ```
 ┌─────────────────────────────────────────────────┐
 │                Root Spec（本文档）                │
-│              iLink-root-spec-v1.0.00.md             │
+│              iLink-root-spec.md             │
 │         所有 AI Agent 的"宪法"，最终权威          │
 └──────────────────┬──────────────────────────────┘
                    │ 派生（MUST 遵守）
