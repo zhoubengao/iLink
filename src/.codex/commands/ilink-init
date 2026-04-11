@@ -1,0 +1,74 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# FR-BSH-01: ilink-init <story> - Create new Story directory and requirement template
+
+DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck source=/dev/null
+source "$DIR/_common.sh"
+
+story_required "$@"
+story="$1"
+base_dir="$(story_dir "$story")"
+
+if [[ -d "$base_dir" ]]; then
+  log_error "Story '$story' already exists at $base_dir"
+  exit 1
+fi
+
+log_info "Initializing story: $story"
+
+mkdir -p "$base_dir"
+
+cat > "$base_dir/${story}-需求定义.md" << 'EOT'
+# <story>：<请填写需求标题>
+
+## 功能描述
+
+<请描述本需求要解决的问题和预期效果>
+
+## 功能范围
+
+### In Scope（必须实现）
+
+1. <功能点1>
+2. <功能点2>
+
+### Out of Scope（明确排除）
+
+1. <排除项1>
+
+## 验收标准
+
+| AC-ID | 验收标准 | 验证方式 |
+|-------|---------|---------|
+| AC-01 | <Given... When... Then...> | 单元测试/代码审查 |
+| AC-02 | <Given... When... Then...> | 单元测试/代码审查 |
+
+## 约束备注
+
+| 编号 | 约束类型 | 约束内容 |
+|------|---------|---------|
+| HC-01 | 技术 | <技术约束，如Java版本、框架限制> |
+| HC-02 | 业务 | <业务约束，如合规要求> |
+
+## 假设与风险
+
+| 编号 | 类型 | 内容 | 风险等级 |
+|------|------|------|---------|
+| AR-01 | 假设 | <假设条件> | M |
+EOT
+
+sed -i.bak "s/<story>/$story/g" "$base_dir/${story}-需求定义.md"
+rm -f "$base_dir/${story}-需求定义.md.bak"
+
+reset_retry_count "$base_dir"
+
+log_info "Story '$story' initialized successfully"
+echo ""
+echo "工作目录: $base_dir"
+echo "初始文件: ${story}-需求定义.md"
+echo ""
+echo "下一步："
+echo "1. 编辑 $base_dir/${story}-需求定义.md"
+echo "2. 完成后执行: /ilink-pm $story"

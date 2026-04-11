@@ -1,0 +1,125 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# ilink-bootstrap - Prepare Bootstrap execution for Qoder CLI
+# This script does pre-checks and outputs guidance for the Bootstrap process
+
+DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck source=/dev/null
+source "$DIR/_common.sh"
+
+log_info "iLink Bootstrap - Project Initialization"
+echo ""
+
+# Step 1: Check iLink framework files
+log_info "Step 1: Checking iLink framework files..."
+
+framework_files=(
+  "iLink/iLink-root-spec-v1.0.00.md"
+  "iLink/souls/universal.soul.md"
+  "iLink/souls/pm.soul.md"
+  "iLink/souls/design.soul.md"
+  "iLink/souls/coder.soul.md"
+  "iLink/souls/qa.soul.md"
+)
+
+missing_framework=0
+for f in "${framework_files[@]}"; do
+  if [[ ! -f "$f" ]]; then
+    log_error "Missing: $f"
+    missing_framework=1
+  else
+    echo "  ✅ $f"
+  fi
+done
+
+if [[ $missing_framework -eq 1 ]]; then
+  echo ""
+  log_error "iLink framework files are missing."
+  echo "Please copy the iLink framework to your project first."
+  exit 1
+fi
+
+# Step 2: Check Qoder command files
+log_info "Step 2: Checking Qoder command files..."
+
+command_files=(
+  "ilink-init"
+  "ilink-pm"
+  "ilink-design"
+  "ilink-coder"
+  "ilink-qa"
+)
+
+missing_commands=0
+for f in "${command_files[@]}"; do
+  if [[ ! -f "$DIR/$f" ]]; then
+    echo "  ⚠️ Missing: .qoder/commands/$f"
+    missing_commands=1
+  else
+    echo "  ✅ .qoder/commands/$f"
+  fi
+done
+
+if [[ $missing_commands -eq 1 ]]; then
+  echo ""
+  log_warn "Some command files are missing. Bootstrap will continue but some features may not work."
+fi
+
+# Step 3: Check project-context.md
+log_info "Step 3: Checking project-context.md..."
+if [[ -f "project-context.md" ]]; then
+  echo "  ✅ project-context.md exists"
+  echo "     (Bootstrap will skip generation if content is complete)"
+else
+  echo "  📝 project-context.md not found"
+  echo "     (Bootstrap will analyze project and generate it)"
+fi
+
+# Step 4: Check entry files
+log_info "Step 4: Checking entry files..."
+
+check_entry_file() {
+  local file=$1
+  local name=$2
+  if [[ -f "$file" ]]; then
+    if grep -q "iLink 协作协议" "$file" 2>/dev/null; then
+      if grep -q "Root Spec v1.0.00" "$file" 2>/dev/null; then
+        echo "  ✅ $name: already iLink v1.0.00 (will skip)"
+      else
+        echo "  🔄 $name: old iLink version (will upgrade to v1.0.00)"
+      fi
+    else
+      echo "  ⚠️ $name: non-iLink file (will backup and migrate)"
+    fi
+  else
+    echo "  🆕 $name: not found (will create)"
+  fi
+}
+
+check_entry_file "CLAUDE.md" "CLAUDE.md"
+check_entry_file "AGENTS.md" "AGENTS.md"
+
+# Step 5: Check iLink-doc directory
+log_info "Step 5: Checking iLink-doc directory..."
+if [[ -d "iLink-doc" ]]; then
+  echo "  ✅ iLink-doc/ exists"
+else
+  echo "  🆕 iLink-doc/ will be created"
+fi
+
+echo ""
+echo "=========================================="
+echo "Bootstrap Pre-check Complete"
+echo "=========================================="
+echo ""
+echo "Now execute in Qoder chat:"
+echo ""
+echo "  /ilink-bootstrap"
+echo ""
+echo "The AI will:"
+echo "  1. Analyze your project structure"
+echo "  2. Generate iLink/project-context.md"
+echo "  3. Update CLAUDE.md and AGENTS.md as iLink thin routers"
+echo "  4. Create iLink-doc/ directory if needed"
+echo ""
