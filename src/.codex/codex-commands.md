@@ -57,7 +57,7 @@ Protocol_Version: v1.0.00
 Role: PM
 AI_Vendor: Codex
 AI_Model: <工具版本号>
-Current_Timestamp: <执行 date -u +%Y-%m-%dT%H:%M:%S+00:00>
+Current_Timestamp: <执行 TZ=Asia/Shanghai date +%Y-%m-%dT%H:%M:%S+08:00>
 Normalized_Source_Hash: <执行 shasum <story>-需求定义.md 取第一列>
 Target_Files:
 Status: PENDING_DESIGNER
@@ -102,7 +102,7 @@ Protocol_Version: v1.0.00
 Role: DESIGNER
 AI_Vendor: Codex
 AI_Model: <工具版本号>
-Current_Timestamp: <执行 date -u +%Y-%m-%dT%H:%M:%S+00:00>
+Current_Timestamp: <执行 TZ=Asia/Shanghai date +%Y-%m-%dT%H:%M:%S+08:00>
 Normalized_Source_Hash: <执行 shasum <story>-pm.master.md 取第一列>
 Target_Files:
 Status: STAGING
@@ -160,7 +160,7 @@ Protocol_Version: v1.0.00
 Role: CODER
 AI_Vendor: Codex
 AI_Model: <工具版本号>
-Current_Timestamp: <执行 date -u +%Y-%m-%dT%H:%M:%S+00:00>
+Current_Timestamp: <执行 TZ=Asia/Shanghai date +%Y-%m-%dT%H:%M:%S+08:00>
 Normalized_Source_Hash: <执行 shasum <story>-design.master.md 取第一列>
 Target_Files: <修改的文件列表，逗号分隔>
 Status: PENDING_QA
@@ -219,7 +219,7 @@ Protocol_Version: v1.0.00
 Role: QA
 AI_Vendor: Codex
 AI_Model: <工具版本号>
-Current_Timestamp: <执行 date -u +%Y-%m-%dT%H:%M:%S+00:00>
+Current_Timestamp: <执行 TZ=Asia/Shanghai date +%Y-%m-%dT%H:%M:%S+08:00>
 Normalized_Source_Hash: <执行 shasum <story>-code.master.md 取第一列>
 Target_Files:
 Status: <COMPLETED | FAIL_BACK_TO_CODER | STAGING>

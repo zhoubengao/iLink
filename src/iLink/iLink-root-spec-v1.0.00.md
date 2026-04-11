@@ -543,7 +543,7 @@ Protocol_Version: v1.0.00
 Role: <PM / DESIGNER / CODER / QA>
 AI_Vendor: <执行本角色的 Host CLI 品牌名，如 Claude / Qoder / Codex>
 AI_Model: <工具版本或底层模型；若 Host CLI 允许披露则填底层模型（如 claude-sonnet-4-6），否则填工具版本号>
-Current_Timestamp: <执行 `date -u +%Y-%m-%dT%H:%M:%S+00:00` 获取>
+Current_Timestamp: <执行 `TZ=Asia/Shanghai date +%Y-%m-%dT%H:%M:%S+08:00` 获取>
 Normalized_Source_Hash: <执行 `shasum <主上游文档路径>` 获取，取第一列 Hash 值>
 Target_Files: <仅 Coder 填写，逗号分隔；其他角色留空>
 Status: <状态值>
@@ -558,7 +558,7 @@ Status: <状态值>
 | Role | Agent | 角色标识，MUST 大写 |
 | AI_Vendor | Agent | Host CLI 品牌名，如 `Claude` / `Qoder` / `Codex`；字段语义为"工具标识"，不要求披露底层模型厂商 |
 | AI_Model | Agent | 工具版本或模型标识；若 Host CLI 允许自报底层模型则填模型 ID（如 `claude-sonnet-4-6`），否则填工具版本号 |
-| Current_Timestamp | Agent | RFC3339 格式时间戳，MUST 通过 `date -u +%Y-%m-%dT%H:%M:%S+00:00` 实际获取，不得使用占位符 |
+| Current_Timestamp | Agent | RFC3339 格式时间戳，MUST 通过 `TZ=Asia/Shanghai date +%Y-%m-%dT%H:%M:%S+08:00` 实际获取，不得使用占位符 |
 | Normalized_Source_Hash | Agent | **主上游文档**的 SHA1 Hash，MUST 通过 `shasum <主上游文档路径>` 实际获取（取第一列）。**注意：是对主上游文档做 hash，不是对当前输出文档做 hash**。各角色主上游：PM→需求定义文档、Designer→pm.master.md、Coder→design.master.md、QA→code.master.md |
 | Target_Files | Agent（仅 Coder） | 修改的文件列表 |
 | Status | Agent | 当前状态，MUST 准确填写。`STAGING` 状态隐含"等待人工审核"的锁定语义，无需额外锁定字段 |
@@ -578,7 +578,7 @@ Status: <状态值>
 
 `Current_Timestamp` 和 `Normalized_Source_Hash` MUST 由 Agent 在输出 Master Doc 前通过 shell 命令实际获取并填入：
 
-- **Current_Timestamp**：执行 `date -u +%Y-%m-%dT%H:%M:%S+00:00`，取输出值，不得使用 `—` 或占位符
+- **Current_Timestamp**：执行 `TZ=Asia/Shanghai date +%Y-%m-%dT%H:%M:%S+08:00`，取输出值，不得使用 `—` 或占位符
 - **Normalized_Source_Hash**：执行 `shasum <主上游文档路径>`，取第一列 SHA1 Hash 值，不得使用 `—` 或占位符
 
 **主上游文档**（hash 的对象）按角色定义如下，各角色 MUST 对自己的主上游文档而非当前输出文档做 hash：
@@ -978,7 +978,7 @@ Protocol_Version: v1.0.00
 Role: PM
 AI_Vendor: <Host CLI 品牌名，如 Claude / Qoder / Codex>
 AI_Model: <工具版本或底层模型 ID>
-Current_Timestamp: <date -u +%Y-%m-%dT%H:%M:%S+00:00>
+Current_Timestamp: <TZ=Asia/Shanghai date +%Y-%m-%dT%H:%M:%S+08:00>
 Normalized_Source_Hash: <shasum <主上游文档> | 取第一列>
 Target_Files:
 Status: PENDING_DESIGNER
@@ -1031,7 +1031,7 @@ Protocol_Version: v1.0.00
 Role: DESIGNER
 AI_Vendor: <Host CLI 品牌名，如 Claude / Qoder / Codex>
 AI_Model: <工具版本或底层模型 ID>
-Current_Timestamp: <date -u +%Y-%m-%dT%H:%M:%S+00:00>
+Current_Timestamp: <TZ=Asia/Shanghai date +%Y-%m-%dT%H:%M:%S+08:00>
 Normalized_Source_Hash: <shasum <主上游文档> | 取第一列>
 Target_Files:
 Status: STAGING
@@ -1067,7 +1067,7 @@ Protocol_Version: v1.0.00
 Role: CODER
 AI_Vendor: <Host CLI 品牌名，如 Claude / Qoder / Codex>
 AI_Model: <工具版本或底层模型 ID>
-Current_Timestamp: <date -u +%Y-%m-%dT%H:%M:%S+00:00>
+Current_Timestamp: <TZ=Asia/Shanghai date +%Y-%m-%dT%H:%M:%S+08:00>
 Normalized_Source_Hash: <shasum <主上游文档> | 取第一列>
 Target_Files: <文件列表>
 Status: PENDING_QA
@@ -1103,7 +1103,7 @@ Protocol_Version: v1.0.00
 Role: QA
 AI_Vendor: <Host CLI 品牌名，如 Claude / Qoder / Codex>
 AI_Model: <工具版本或底层模型 ID>
-Current_Timestamp: <date -u +%Y-%m-%dT%H:%M:%S+00:00>
+Current_Timestamp: <TZ=Asia/Shanghai date +%Y-%m-%dT%H:%M:%S+08:00>
 Normalized_Source_Hash: <shasum <主上游文档> | 取第一列>
 Target_Files:
 Status: COMPLETED

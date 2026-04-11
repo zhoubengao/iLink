@@ -73,14 +73,14 @@ Protocol_Version: v1.0.00
 Role: QA
 AI_Vendor: Claude
 AI_Model: <你的实际模型 ID，如 claude-sonnet-4-6>
-Current_Timestamp: <执行 date -u +%Y-%m-%dT%H:%M:%S+00:00 获取实际时间>
+Current_Timestamp: <执行 TZ=Asia/Shanghai date +%Y-%m-%dT%H:%M:%S+08:00 获取实际时间>
 Normalized_Source_Hash: <执行 shasum iLink-doc/$ARGUMENTS/$ARGUMENTS-code.master.md 取第一列>
 Target_Files:
 Status: <COMPLETED | FAIL_BACK_TO_CODER | STAGING>
 ---
 ```
 
-> 提示：在输出 Metadata 区块前，先通过 Bash 工具执行 `date -u +%Y-%m-%dT%H:%M:%S+00:00` 和 `shasum iLink-doc/$ARGUMENTS/$ARGUMENTS-code.master.md` 获取真实值后填入，不得留占位符。
+> 提示：在输出 Metadata 区块前，先通过 Bash 工具执行 `TZ=Asia/Shanghai date +%Y-%m-%dT%H:%M:%S+08:00` 和 `shasum iLink-doc/$ARGUMENTS/$ARGUMENTS-code.master.md` 获取真实值后填入，不得留占位符。
 
 ## 完成后
 
