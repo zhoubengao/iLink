@@ -40,7 +40,7 @@ Status: PENDING_DESIGNER
 ---
 ```
 
-> 注：Timestamp（RFC3339 格式）和 Normalized_Source_Hash 可由用户后续通过 `iLink/setup.sh` 统一注入。
+> 注：`Current_Timestamp` 和 `Normalized_Source_Hash` 由 `ilink-inject-metadata` 脚本注入（位于 `.codex/commands/` 或 `.qoder/commands/`）。Claude 平台可在完成后手动运行该脚本，或跳过——这两个字段不影响流水线推进。
 
 ## 完成后
 

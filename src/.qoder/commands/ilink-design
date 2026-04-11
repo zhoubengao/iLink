@@ -38,8 +38,8 @@ echo "# Qoder Designer Input Bundle — $story" >> "$out"
 
 # AC-1: Read project-context.md -> universal.soul.md -> design.soul.md
 write_doc_sep "$out" "project-context.md"
-if [[ -f "iLink/project-context.md" ]]; then
-  cat "iLink/project-context.md" >> "$out"
+if [[ -f "project-context.md" ]]; then
+  cat "project-context.md" >> "$out"
 else
   echo "[project-context.md not found]" >> "$out"
 fi
