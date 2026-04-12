@@ -39,7 +39,7 @@ PM → Designer → Coder → QA
 ```
 ---
 # ILINK-PROTOCOL-METADATA
-Protocol_Version: v1.1.00
+Protocol_Version: v1.1.01
 Role: <你的角色大写：PM / DESIGNER / CODER / QA>
 AI_Vendor: <你的 Host CLI 品牌名，如 Claude / Qoder / Codex>
 AI_Model: <你的工具版本或底层模型 ID（若允许披露）>
@@ -63,7 +63,7 @@ Status: <状态值>
 
 > **重要**：`Current_Timestamp` 和 `Normalized_Source_Hash` MUST 通过 shell 命令实际获取，不得使用 `—` 或其他占位符。`AI_Vendor` 填 Host CLI 品牌名（非底层模型厂商），`AI_Model` 填工具版本或底层模型 ID（若工具不允许披露底层模型，填工具版本号）。`STAGING` 状态隐含"等待人工审核"的锁定语义。
 >
-> **STAGING 解除路径**：人类可通过 `/ilink-refine <story>` 进入修订对话，与 AI 逐条决策解除阻塞项（参见 Root Spec §6.3）；也可直接编辑文档，或执行 `/ilink-approve <story>` 主动承担不确定性风险直接推进。
+> **STAGING 解除路径**：人类可通过 `/ilink-refine <story>` 进入修订对话，与 AI 逐条决策解除阻塞项（参见 Root Spec §6.3）；也可直接编辑文档，或执行 `/ilink-approve <story>` 推进状态。`ilink-refine` 仅修订文档内容，状态推进由 `ilink-approve` 统一负责。
 
 ---
 

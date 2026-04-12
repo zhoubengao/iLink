@@ -84,10 +84,10 @@ check_entry_file() {
   local name=$2
   if [[ -f "$file" ]]; then
     if grep -q "iLink 协作协议" "$file" 2>/dev/null; then
-      if grep -q "Root Spec v1.0.00" "$file" 2>/dev/null; then
-        echo "  ✅ $name: already iLink v1.0.00 (will skip)"
+      if grep -q "Root Spec v1.1.01" "$file" 2>/dev/null; then
+        echo "  ✅ $name: already iLink v1.1.01 (will skip)"
       else
-        echo "  🔄 $name: old iLink version (will upgrade to v1.0.00)"
+        echo "  🔄 $name: old iLink version (will upgrade to v1.1.01)"
       fi
     else
       echo "  ⚠️ $name: non-iLink file (will backup and migrate)"

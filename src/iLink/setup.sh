@@ -106,7 +106,7 @@ if [[ -d "$PROJECT_ROOT/.codex" ]]; then
       echo ""
       echo "## iLink"
       echo ""
-      echo "本项目使用 iLink 流水线开发（v1.1.00）。"
+      echo "本项目使用 iLink 流水线开发（v1.1.01）。"
       echo ""
       echo "当用户输入 \`ilink-pm\`、\`ilink-design\`、\`ilink-coder\`、\`ilink-qa\` 加 Story ID 时，"
       echo "请先读取 \`.codex/codex-commands.md\` 并按其中的指令执行对应角色任务。"

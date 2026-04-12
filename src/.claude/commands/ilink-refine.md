@@ -82,25 +82,21 @@
 每确认一项后，从 C1 的 NOTIFY_ITEMS 列表中移除对应条目。
 所有 NOTIFY_ITEMS 条目均被确认后，写入 `NOTIFY_ITEMS: NONE`。
 
-## 步骤 7：更新 Status
+## 步骤 7：清理阻塞项（不修改 Status）
 
 所有阻塞项处理完毕后：
 
-- 若所有 H 级阻塞项已消解 → 将 Status 更新为对应 PENDING 状态：
-  - pm.master.md STAGING → `PENDING_DESIGNER`
-  - design.master.md STAGING → `PENDING_CODER`（此时仍需 ilink-approve 正式推进）
-  - review.master.md STAGING → 维持 STAGING，提示用户按修订结论处理上游问题
-- 若仍有未解决的 H 级项 → 维持 `STAGING`
+- 若所有 `[待确认]` 项已消解 → 移除文档中残留 `[待确认]` 标记，更新 B5/C1 中的风险标记
+- 若仍有未解决的 H 级项 → 维持文档 STAGING 状态不变
 
-使用 Edit 工具就地更新 Metadata 中的 Status 字段。
+> **注意**：`ilink-refine` 只修订文档内容，**不修改 Status**。状态推进由 `ilink-approve` 统一负责。
+
+使用 Edit 工具就地更新文档中被讨论的条目。
 
 ## 步骤 8：提示下一步
 
 ```
-修订完成。
-
-已确认：N 项  |  待处理：0 项
-当前 Status：PENDING_DESIGNER
+修订完成。所有阻塞项已消解。
 
 下一步：执行 `/ilink-approve $ARGUMENTS` 正式推进流水线。
 ```
