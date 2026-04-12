@@ -58,12 +58,12 @@ Role: PM
 AI_Vendor: Codex
 AI_Model: <工具版本号>
 Current_Timestamp: <执行 TZ=Asia/Shanghai date +%Y-%m-%dT%H:%M:%S+08:00>
-Normalized_Source_Hash: <执行 shasum <story>-需求定义.md 取第一列>
+Upstream_SHA1: <执行 shasum <story>-需求定义.md 取第一列>
 Target_Files:
 Status: PENDING_DESIGNER
 ---
 ```
-> 存在 H 级风险或逻辑矛盾时，Status 设为 `STAGING`；Current_Timestamp 和 Normalized_Source_Hash 必须通过命令实际获取，不得留占位符
+> 存在 H 级风险或逻辑矛盾时，Status 设为 `STAGING`；Current_Timestamp 和 Upstream_SHA1 必须通过命令实际获取，不得留占位符
 
 ### 完成后
 - Status=STAGING → 说明阻塞原因，建议用户审核
@@ -103,7 +103,7 @@ Role: DESIGNER
 AI_Vendor: Codex
 AI_Model: <工具版本号>
 Current_Timestamp: <执行 TZ=Asia/Shanghai date +%Y-%m-%dT%H:%M:%S+08:00>
-Normalized_Source_Hash: <执行 shasum <story>-pm.master.md 取第一列>
+Upstream_SHA1: <执行 shasum <story>-pm.master.md 取第一列>
 Target_Files:
 Status: STAGING
 ---
@@ -162,7 +162,7 @@ Role: CODER
 AI_Vendor: Codex
 AI_Model: <工具版本号>
 Current_Timestamp: <执行 TZ=Asia/Shanghai date +%Y-%m-%dT%H:%M:%S+08:00>
-Normalized_Source_Hash: <执行 shasum <story>-design.master.md 取第一列>
+Upstream_SHA1: <执行 shasum <story>-design.master.md 取第一列>
 Target_Files: <修改的文件列表，逗号分隔>
 Status: PENDING_QA
 ---
@@ -221,7 +221,7 @@ Role: QA
 AI_Vendor: Codex
 AI_Model: <工具版本号>
 Current_Timestamp: <执行 TZ=Asia/Shanghai date +%Y-%m-%dT%H:%M:%S+08:00>
-Normalized_Source_Hash: <执行 shasum <story>-code.master.md 取第一列>
+Upstream_SHA1: <执行 shasum <story>-code.master.md 取第一列>
 Target_Files:
 Status: <COMPLETED | FAIL_BACK_TO_CODER | STAGING>
 ---

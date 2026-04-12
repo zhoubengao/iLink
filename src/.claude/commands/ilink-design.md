@@ -57,7 +57,7 @@ Role: DESIGNER
 AI_Vendor: Claude
 AI_Model: <你的实际模型 ID，如 claude-sonnet-4-6>
 Current_Timestamp: <执行 TZ=Asia/Shanghai date +%Y-%m-%dT%H:%M:%S+08:00 获取实际时间>
-Normalized_Source_Hash: <执行 shasum iLink-doc/$ARGUMENTS/$ARGUMENTS-pm.master.md 取第一列>
+Upstream_SHA1: <执行 shasum iLink-doc/$ARGUMENTS/$ARGUMENTS-pm.master.md 取第一列>
 Target_Files:
 Status: STAGING
 ---

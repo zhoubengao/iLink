@@ -209,7 +209,7 @@ Role: DESIGNER
 AI_Vendor: <Host CLI 品牌名，如 Claude / Qoder / Codex>
 AI_Model: <工具版本或底层模型 ID（若允许披露）>
 Current_Timestamp: <TZ=Asia/Shanghai date +%Y-%m-%dT%H:%M:%S+08:00>
-Normalized_Source_Hash: <shasum pm.master.md | 取第一列>
+Upstream_SHA1: <shasum pm.master.md | 取第一列>
 Target_Files:
 Status: STAGING
 ---

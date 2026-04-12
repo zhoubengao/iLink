@@ -47,7 +47,7 @@ iLink 用**人类软件团队的分工模式**解决这些问题：
 除了解决上述三个共性问题，iLink 在企业级软件交付场景下还有以下结构性优势：
 
 - **Story 隔离（最重要的工程属性）**：每个 Story 拥有独立的目录、独立的 Master Doc 集合、独立的 `.retry_count` 信号文件。多个开发者可以并行处理不同 Story 互不污染；同一开发者按"完成一个再开发下一个"的节奏顺序交付时，每个 Story 的状态、历史、回流次数完全自包含。Story 之间没有共享内存、没有全局状态、没有隐式依赖——这让 iLink 天然适配 Jira/工单驱动的迭代开发模式。**注意**：Story 隔离是文档级隔离，不是工程级隔离；如果多个 Story 修改同一文件，仍需串行处理。
-- **可追溯的决策链**：每个 Story 完成后留下完整的文档链——`<id>-需求定义.md` → `pm.master.md` → `design.master.md` → `code.master.md` → `review.master.md`。每份文档末尾的 Metadata 印章记录了角色、AI 模型、时间戳、Normalized_Source_Hash，构成天然的审计材料，适配金融、政务、医疗等合规敏感领域。
+- **可追溯的决策链**：每个 Story 完成后留下完整的文档链——`<id>-需求定义.md` → `pm.master.md` → `design.master.md` → `code.master.md` → `review.master.md`。每份文档末尾的 Metadata 印章记录了角色、AI 模型、时间戳、Upstream_SHA1，构成天然的审计材料，适配金融、政务、医疗等合规敏感领域。
 - **稳定的项目护栏**：`project-context.md` 是项目级的稳定知识库（技术栈、模块职责、编码规范、架构约束）。所有角色每次执行任务前都读它，避免 AI 产出不符合项目实际的方案——尤其适合 legacy 系统、强约束技术栈、隐式架构规则多的项目。
 - **QA 回流 + 熔断**：QA 审查不通过时输出结构化的 `[FIX_REQUESTS]`，由 Coder 拿着具体反馈自动修复后再审；连续 3 次仍未通过则强制熔断，要求人类介入。这比"让 AI 反复重试"更可控，也比"出错就放弃"更高效。
 - **多平台兼容**：同一套协议（Soul + Master Doc + Metadata）可以在 Claude / Codex / Qoder 等不同 Host CLI 上运行。团队可以根据预算和场景选择不同的工具，但流程保持一致，AI 产出的中间文档可以无缝接力。
@@ -157,7 +157,7 @@ iLink 的设计原则是**"可选增强、零侵入"**：
 | **Soul 文件** | 定义每个 AI Agent 的角色身份、行为规范和产出格式。相当于"岗位说明书"，所有 Agent 必须严格遵守 |
 | **project-context.md** | 模型无关的项目知识库——技术栈、模块职责、编码规范、架构约束。相当于团队的"公司 Wiki"，所有 Agent 共享 |
 | **Human-Gate** | "离合器"式的人机切换——Designer 节点默认需要人类审核设计方案，审核通过后推进到 Coder。团队建立信任后可逐步放开 |
-| **Metadata 协议** | 每个 Master Doc 末尾标准化的 ILINK-PROTOCOL-METADATA 区块，记录角色、版本、AI 标识、状态、RFC3339 时间戳、规范化内容 Hash，实现可追溯的决策链 |
+| **Metadata 协议** | 每个 Master Doc 末尾标准化的 ILINK-PROTOCOL-METADATA 区块，记录角色、版本、AI 标识、状态、RFC3339 时间戳、上游文档 SHA1，实现可追溯的决策链 |
 | **版本控制集成** | `iLink/` 和 `iLink-doc/` 与 `src/` 同级，AI 文档与源码统一纳入 Git / SVN，支持多人跨机器协作 |
 
 ### 版本控制与团队协作
