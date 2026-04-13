@@ -1,7 +1,7 @@
 # iLink Root Spec
 
 > **文档编号**: ILINK-ROOT-SPEC
-> **版本**: v1.1.01
+> **版本**: v1.2.00
 > **作者**: 周本高
 > **日期**: 2026-04-09
 > **文档类型**: 协议规范（Protocol Specification）
@@ -540,7 +540,7 @@ MUST 包含以下章节：
 ```
 ---
 # ILINK-PROTOCOL-METADATA
-Protocol_Version: v1.1.01
+Protocol_Version: v1.2.00
 Role: <PM / DESIGNER / CODER / QA>
 AI_Vendor: <执行本角色的 Host CLI 品牌名，如 Claude / Qoder / Codex>
 AI_Model: <工具版本或底层模型；若 Host CLI 允许披露则填底层模型（如 claude-sonnet-4-6），否则填工具版本号>
@@ -977,7 +977,7 @@ Story 隔离**不保证**：
 
 ---
 # ILINK-PROTOCOL-METADATA
-Protocol_Version: v1.1.01
+Protocol_Version: v1.2.00
 Role: PM
 AI_Vendor: <Host CLI 品牌名，如 Claude / Qoder / Codex>
 AI_Model: <工具版本或底层模型 ID>
@@ -1030,7 +1030,7 @@ Status: PENDING_DESIGNER
 
 ---
 # ILINK-PROTOCOL-METADATA
-Protocol_Version: v1.1.01
+Protocol_Version: v1.2.00
 Role: DESIGNER
 AI_Vendor: <Host CLI 品牌名，如 Claude / Qoder / Codex>
 AI_Model: <工具版本或底层模型 ID>
@@ -1066,7 +1066,7 @@ Status: STAGING
 
 ---
 # ILINK-PROTOCOL-METADATA
-Protocol_Version: v1.1.01
+Protocol_Version: v1.2.00
 Role: CODER
 AI_Vendor: <Host CLI 品牌名，如 Claude / Qoder / Codex>
 AI_Model: <工具版本或底层模型 ID>
@@ -1102,7 +1102,7 @@ Status: PENDING_QA
 
 ---
 # ILINK-PROTOCOL-METADATA
-Protocol_Version: v1.1.01
+Protocol_Version: v1.2.00
 Role: QA
 AI_Vendor: <Host CLI 品牌名，如 Claude / Qoder / Codex>
 AI_Model: <工具版本或底层模型 ID>

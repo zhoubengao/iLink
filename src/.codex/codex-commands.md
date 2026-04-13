@@ -53,7 +53,7 @@
 ```
 ---
 # ILINK-PROTOCOL-METADATA
-Protocol_Version: v1.1.01
+Protocol_Version: v1.2.00
 Role: PM
 AI_Vendor: Codex
 AI_Model: <工具版本号>
@@ -98,7 +98,7 @@ Status: PENDING_DESIGNER
 ```
 ---
 # ILINK-PROTOCOL-METADATA
-Protocol_Version: v1.1.01
+Protocol_Version: v1.2.00
 Role: DESIGNER
 AI_Vendor: Codex
 AI_Model: <工具版本号>
@@ -157,7 +157,7 @@ Status: STAGING
 ```
 ---
 # ILINK-PROTOCOL-METADATA
-Protocol_Version: v1.1.01
+Protocol_Version: v1.2.00
 Role: CODER
 AI_Vendor: Codex
 AI_Model: <工具版本号>
@@ -216,7 +216,7 @@ Status: PENDING_QA
 ```
 ---
 # ILINK-PROTOCOL-METADATA
-Protocol_Version: v1.1.01
+Protocol_Version: v1.2.00
 Role: QA
 AI_Vendor: Codex
 AI_Model: <工具版本号>
