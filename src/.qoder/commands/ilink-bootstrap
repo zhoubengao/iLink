@@ -21,6 +21,7 @@ framework_files=(
   "iLink/souls/design.soul.md"
   "iLink/souls/coder.soul.md"
   "iLink/souls/qa.soul.md"
+  "iLink/souls/domain.soul.md"
 )
 
 missing_framework=0

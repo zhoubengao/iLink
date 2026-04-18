@@ -17,6 +17,7 @@
 | `ilink-coder <story>` | Coder（编码工程师） | `ilink-coder jzjy-0001` |
 | `ilink-qa <story>` | QA（质量审查员） | `ilink-qa jzjy-0001` |
 | `ilink-refine <story>` | 修订对话（STAGING 阻塞解除） | `ilink-refine jzjy-0001` |
+| `ilink-domain <module>` | Domain Engineer（领域知识生成，认知模式） | `ilink-domain login-410301` |
 
 > 匹配不区分大小写，`/ilink-pm`、`ilink-pm`、`ILINK-PM` 均视为同一命令。
 
@@ -41,6 +42,10 @@
 - 读取 `iLink-doc/<story>/<story>-需求定义.md`
 - 如果不存在，提示用户先执行 `bash .codex/commands/ilink-init <story>`
 
+### 关联领域知识检查
+- 检查需求定义中是否包含"关联领域知识"字段且指定了文件路径
+- 如果有，读取该 Domain Knowledge 文件作为可选参考（主要参考 §5 业务规则）
+
 ### 执行
 1. 分析需求定义，理解业务目标和功能范围
 2. 结合 project-context.md，识别与项目相关的技术约束
@@ -53,7 +58,7 @@
 ```
 ---
 # ILINK-PROTOCOL-METADATA
-Protocol_Version: v1.2.00
+Protocol_Version: v1.3.00
 Role: PM
 AI_Vendor: Codex
 AI_Model: <工具版本号>
@@ -83,6 +88,10 @@ Status: PENDING_DESIGNER
   - STAGING → 提示用户 PM 文档尚未审核通过
   - PENDING_DESIGNER → 继续执行
 
+### 关联领域知识检查
+- 读取上游需求定义，检查是否包含"关联领域知识"字段且指定了文件路径
+- 如果有，读取该 Domain Knowledge 文件（重点参考 §2 业务实体、§6 设计决策、§9 实现品评），帮助做出与现有架构一致的技术设计
+
 ### 执行
 1. 解析 PM 的 B 层业务合同，提取范围契约、硬约束、需求追踪表、验收标准、风险
 2. 转化为系统逻辑行为模型：接口定义 → 逻辑流 → 异常分支 → 错误码 → 数据实体
@@ -98,7 +107,7 @@ Status: PENDING_DESIGNER
 ```
 ---
 # ILINK-PROTOCOL-METADATA
-Protocol_Version: v1.2.00
+Protocol_Version: v1.3.00
 Role: DESIGNER
 AI_Vendor: Codex
 AI_Model: <工具版本号>
@@ -157,7 +166,7 @@ Status: STAGING
 ```
 ---
 # ILINK-PROTOCOL-METADATA
-Protocol_Version: v1.2.00
+Protocol_Version: v1.3.00
 Role: CODER
 AI_Vendor: Codex
 AI_Model: <工具版本号>
@@ -216,7 +225,7 @@ Status: PENDING_QA
 ```
 ---
 # ILINK-PROTOCOL-METADATA
-Protocol_Version: v1.2.00
+Protocol_Version: v1.3.00
 Role: QA
 AI_Vendor: Codex
 AI_Model: <工具版本号>
@@ -301,6 +310,58 @@ Status: <COMPLETED | FAIL_BACK_TO_CODER | STAGING>
 
 ---
 
+## ilink-domain <module> — Domain Engineer 角色（认知模式）
+
+> **定位**：Domain Engineer 不是交付流水线角色，不产生 STAGING / PENDING 等流水线状态。由资深人员主动触发，用于对重要模块生成领域知识文档。
+
+### 准备
+- 读取 `iLink/souls/domain.soul.md`
+
+### 前置检查
+- 确认 `iLink/souls/domain.soul.md` 存在，不存在则提示用户升级 iLink 到 v1.3.00
+- 确认 `iLink-doc/domain/` 目录存在，不存在则创建
+
+### 执行
+
+1. **探索代码**：使用 Glob/Grep/Read 工具主动探索与 `<module>` 相关的模块代码，完整阅读核心类
+2. **提炼知识**：从代码中提取业务实体、流程全景（业务操作视角 + 线程/调度视角）、内部机制、配置参数
+3. **生成待确认清单**：标出代码里看不出来的"为什么"，登记到 §10
+4. **完成实现品评**：选取国际同类产品或知名开源项目作为对标基准，独立完成赏析、风险识别、改进方向；品评基于模型知识，标注此局限
+5. **组装完整文档**：按十章标准格式输出
+
+### 输出
+- 写入 `iLink-doc/domain/<module>-domain-knowledge.md`
+- 十章标准格式：§1 业务定位、§2 业务实体、§3 流程全景、§4 内部机制、§5 业务规则、§6 设计决策、§7 配置参数、§8 故障模式、§9 实现品评、§10 待确认
+
+### 文档头部
+
+```markdown
+# Domain Knowledge — <模块名称>
+
+> **模块**: <模块名或交易码>
+> **发起人**: [待填写]
+> **业务审核**: [待填写]
+> **最后更新**: <执行 TZ=Asia/Shanghai date +%Y-%m-%d 获取实际日期>
+> **状态**: 草稿（§10 待确认项未全部确认）
+> **维护原则**: 代码能读到的不重复写；这里只记录流程全景、设计决策和代码表达不了的"为什么"
+
+## 版本历史
+
+| 版本 | 日期 | 更新人 | 触发原因 | 更新范围 |
+|------|------|--------|---------|---------|
+| v1.0 | <实际日期> | [待填写] | 初始生成 | 全文 |
+```
+
+> 日期 MUST 通过命令实际获取，不得留占位符。Domain Knowledge 不使用 ILINK-PROTOCOL-METADATA 印章。
+
+### 完成后
+- 告知用户文档已生成
+- 提醒审核 §10 待确认项，找业务专家逐条确认
+- 确认完毕后更新状态为"已审核"，填写发起人和业务审核人
+- 执行 `git add iLink-doc/domain/` 纳入版本控制
+
+---
+
 ## ilink-bootstrap — 项目初始化（Bootstrap）
 
 > **目标**：让当前项目具备运行 iLink 流水线的完整环境。执行完毕后，无论哪个 AI 平台（Claude / Codex / Qoder）的用户打开本项目，都能被引导到 iLink 工作体系。
@@ -323,6 +384,7 @@ Status: <COMPLETED | FAIL_BACK_TO_CODER | STAGING>
 - `iLink/souls/design.soul.md`
 - `iLink/souls/coder.soul.md`
 - `iLink/souls/qa.soul.md`
+- `iLink/souls/domain.soul.md`（v1.3 新增，缺失时警告但不阻塞）
 
 如果以上文件全部缺失，停止执行，提示用户先复制 iLink 框架。
 

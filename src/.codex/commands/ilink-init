@@ -57,6 +57,12 @@ cat > "$base_dir/${story}-需求定义.md" << 'EOT'
 | 编号 | 类型 | 内容 | 风险等级 |
 |------|------|------|---------|
 | AR-01 | 假设 | <假设条件> | M |
+
+## 关联领域知识（可选）
+
+<!-- 如果本需求涉及已有 Domain Knowledge 的模块，在此指定文件路径，PM 和 Designer 将纳入参考 -->
+<!-- 示例：iLink-doc/domain/login-410301-domain-knowledge.md -->
+<!-- 无关联时删除本节或留空 -->
 EOT
 
 sed -i.bak "s/<story>/$story/g" "$base_dir/${story}-需求定义.md"

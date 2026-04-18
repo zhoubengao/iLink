@@ -14,7 +14,9 @@
 
 如果该文件不存在，提示用户先执行 `/ilink-init $ARGUMENTS` 初始化 Story。
 
-如果文件存在，按照 PM Soul 的要求执行以下工作：
+如果文件存在，检查需求定义中是否包含"关联领域知识"字段且指定了文件路径。如果有，读取该 Domain Knowledge 文件作为可选参考（主要参考 §5 业务规则）。
+
+按照 PM Soul 的要求执行以下工作：
 
 1. **分析需求定义**，理解业务目标和功能范围
 2. **结合 project-context.md**，识别与项目相关的技术约束
@@ -29,7 +31,7 @@
 ```markdown
 ---
 # ILINK-PROTOCOL-METADATA
-Protocol_Version: v1.2.00
+Protocol_Version: v1.3.00
 Role: PM
 AI_Vendor: Claude
 AI_Model: <你的实际模型 ID，如 claude-sonnet-4-6>

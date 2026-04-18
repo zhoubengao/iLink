@@ -1,0 +1,52 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# ilink-domain <module> - Trigger Domain Engineer (Cognition Mode)
+
+DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck source=/dev/null
+source "$DIR/_common.sh"
+
+if [[ $# -lt 1 || -z "${1}" ]]; then
+  echo "Usage: $0 <module>" >&2
+  echo "  module: 模块名称或交易码（如 login-410301）" >&2
+  exit 2
+fi
+
+module="$1"
+domain_dir="iLink-doc/domain"
+output_file="$domain_dir/${module}-domain-knowledge.md"
+
+# Check domain.soul.md exists
+if [[ ! -f "iLink/souls/domain.soul.md" ]]; then
+  log_error "Missing: iLink/souls/domain.soul.md"
+  echo "请确认 iLink 框架已升级到 v1.3.00（包含 Domain Engineer 角色规范）"
+  exit 1
+fi
+
+# Create domain directory if not exists
+if [[ ! -d "$domain_dir" ]]; then
+  mkdir -p "$domain_dir"
+  log_info "Created directory: $domain_dir"
+fi
+
+# Check if domain knowledge already exists
+if [[ -f "$output_file" ]]; then
+  log_warn "Domain Knowledge already exists: $output_file"
+  echo ""
+  read -p "Overwrite? (y/N) " -n 1 -r
+  echo
+  if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+    exit 0
+  fi
+fi
+
+echo ""
+echo "现在可以在对话中执行: /ilink-domain $module"
+echo ""
+echo "提示: Domain Engineer 将："
+echo "  1. 读取与 $module 相关的源码"
+echo "  2. 生成 10 章标准领域知识文档"
+echo "  3. 写入 $output_file"
+echo ""
+echo "完成后请审核 §10 待确认项，找业务专家逐条确认。"

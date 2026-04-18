@@ -18,6 +18,10 @@
 - 如果 Status 为 STAGING，提示用户 PM 文档尚未通过审核，需要先审核并手动将 Status 改为 PENDING_DESIGNER
 - 如果 Status 为 PENDING_DESIGNER，继续执行
 
+## 关联领域知识检查
+
+读取上游需求定义 `iLink-doc/$ARGUMENTS/$ARGUMENTS-需求定义.md`，检查是否包含"关联领域知识"字段且指定了文件路径。如果有，读取该 Domain Knowledge 文件（重点参考 §2 业务实体、§6 设计决策、§9 实现品评），帮助做出与现有架构一致的技术设计。
+
 ## 执行任务
 
 按照 Designer Soul 的要求执行以下工作：
@@ -52,7 +56,7 @@
 ```markdown
 ---
 # ILINK-PROTOCOL-METADATA
-Protocol_Version: v1.2.00
+Protocol_Version: v1.3.00
 Role: DESIGNER
 AI_Vendor: Claude
 AI_Model: <你的实际模型 ID，如 claude-sonnet-4-6>

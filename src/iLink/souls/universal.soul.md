@@ -39,7 +39,7 @@ PM → Designer → Coder → QA
 ```
 ---
 # ILINK-PROTOCOL-METADATA
-Protocol_Version: v1.2.00
+Protocol_Version: v1.3.00
 Role: <你的角色大写：PM / DESIGNER / CODER / QA>
 AI_Vendor: <你的 Host CLI 品牌名，如 Claude / Qoder / Codex>
 AI_Model: <你的工具版本或底层模型 ID（若允许披露）>

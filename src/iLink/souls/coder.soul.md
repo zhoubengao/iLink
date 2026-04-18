@@ -254,12 +254,22 @@ public UserPointsDTO queryUserPoints(Long userId) {
 - 新增或修改的方法：注释放在方法签名**上方紧邻行**
 - 新增文件：注释额外放在**文件顶部**（package/import 声明之前）
 - 未改动的方法：不添加注释
+- **SQL 脚本文件**：文件顶部 MUST 添加变更标注注释，且每条 DDL/DML 语句（CREATE、ALTER、INSERT、UPDATE、DELETE 等）上方 MUST 添加变更标注注释（使用 `--` 注释符）
 
 **回流修复时**：在原有标注下方**追加一行**，不覆盖原有记录：
 ```java
 // [kcia-1639] Claude | 2026-04-11T10:02:08+08:00 | 新增用户积分查询接口
 // [kcia-1639] Claude | 2026-04-11T14:30:00+08:00 | fix: 修复空指针异常 (IS-03)
 public UserPointsDTO queryUserPoints(Long userId) {
+```
+
+**SQL 脚本示例**：
+```sql
+-- [kcia-1639] Claude | 2026-04-11T10:02:08+08:00 | 用户积分表新增积分类型字段
+ALTER TABLE user_points ADD COLUMN point_type VARCHAR(20) NOT NULL DEFAULT 'NORMAL' COMMENT '积分类型';
+
+-- [kcia-1639] Claude | 2026-04-11T10:02:08+08:00 | 新增积分类型索引
+CREATE INDEX idx_user_points_type ON user_points(point_type);
 ```
 
 `<Current_Timestamp>` 使用与 Metadata 印章同一次 `TZ=Asia/Shanghai date +%Y-%m-%dT%H:%M:%S+08:00` 调用的结果（整次 Coder 运行使用同一时间戳）。
