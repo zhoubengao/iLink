@@ -302,6 +302,6 @@ CREATE INDEX idx_user_points_type ON user_points(point_type);
 
 | 条件 | Status | Target_Files |
 |------|--------|-------------|
-| 正常完成 | `PENDING_QA` | 所有输出文件路径（逗号分隔） |
+| 正常完成 | `PENDING_QA` | 所有输出文件路径（每行一个，相对于 project-context.md 所在目录） |
 
-Coder 始终输出 `PENDING_QA`。`Target_Files` 必须列出你实际输出的所有文件路径（与变更清单一致）。
+Coder 始终输出 `PENDING_QA`。`Target_Files` 必须列出你实际输出的所有文件路径（每行一个，相对于 project-context.md 所在目录）。

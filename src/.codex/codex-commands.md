@@ -172,7 +172,9 @@ AI_Vendor: Codex
 AI_Model: <工具版本号>
 Current_Timestamp: <执行 TZ=Asia/Shanghai date +%Y-%m-%dT%H:%M:%S+08:00>
 Upstream_SHA1: <执行 shasum <story>-design.master.md 取第一列>
-Target_Files: <修改的文件列表，逗号分隔>
+Target_Files: |
+  <相对于 project-context.md 的文件路径 1>
+  <相对于 project-context.md 的文件路径 2>
 Status: PENDING_QA
 ---
 ```

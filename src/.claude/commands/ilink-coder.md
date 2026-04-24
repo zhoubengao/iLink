@@ -71,7 +71,9 @@ AI_Vendor: Claude
 AI_Model: <你的实际模型 ID，如 claude-sonnet-4-6>
 Current_Timestamp: <执行 TZ=Asia/Shanghai date +%Y-%m-%dT%H:%M:%S+08:00 获取实际时间>
 Upstream_SHA1: <执行 shasum iLink-doc/$ARGUMENTS/$ARGUMENTS-design.master.md 取第一列>
-Target_Files: <修改的文件列表，逗号分隔>
+Target_Files: |
+  <相对于 project-context.md 的文件路径 1>
+  <相对于 project-context.md 的文件路径 2>
 Status: PENDING_QA
 ---
 ```

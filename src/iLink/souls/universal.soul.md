@@ -45,7 +45,8 @@ AI_Vendor: <你的 Host CLI 品牌名，如 Claude / Qoder / Codex>
 AI_Model: <你的工具版本或底层模型 ID（若允许披露）>
 Current_Timestamp: <执行 TZ=Asia/Shanghai date +%Y-%m-%dT%H:%M:%S+08:00 获取实际时间>
 Upstream_SHA1: <执行 shasum <主上游文档路径> 取第一列>
-Target_Files: <仅 Coder 填写，逗号分隔文件路径；其他角色留空>
+Target_Files: |
+  <仅 Coder 填写，每行一个文件路径（相对于 project-context.md 所在目录）；其他角色留空>
 Status: <状态值>
 ---
 ```

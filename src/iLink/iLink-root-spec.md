@@ -448,7 +448,7 @@ MUST 包含以下章节：
 
 #### 4.3.7 Status 决策规则
 
-Coder 始终输出 `Status: PENDING_QA`。`Target_Files` MUST 列出所有修改的文件路径（逗号分隔）。
+Coder 始终输出 `Status: PENDING_QA`。`Target_Files` MUST 列出所有修改的文件路径（每行一个，相对于 project-context.md 所在目录）。
 
 ---
 
@@ -715,7 +715,8 @@ AI_Vendor: <执行本角色的 Host CLI 品牌名，如 Claude / Qoder / Codex>
 AI_Model: <工具版本或底层模型；若 Host CLI 允许披露则填底层模型（如 claude-sonnet-4-6），否则填工具版本号>
 Current_Timestamp: <执行 `TZ=Asia/Shanghai date +%Y-%m-%dT%H:%M:%S+08:00` 获取>
 Upstream_SHA1: <执行 `shasum <主上游文档路径>` 获取，取第一列 Hash 值>
-Target_Files: <仅 Coder 填写，逗号分隔；其他角色留空>
+Target_Files: |
+  <仅 Coder 填写，每行一个文件路径（相对于 project-context.md 所在目录）；其他角色留空>
 Status: <状态值>
 ---
 ```
@@ -1246,7 +1247,9 @@ AI_Vendor: <Host CLI 品牌名，如 Claude / Qoder / Codex>
 AI_Model: <工具版本或底层模型 ID>
 Current_Timestamp: <TZ=Asia/Shanghai date +%Y-%m-%dT%H:%M:%S+08:00>
 Upstream_SHA1: <shasum <主上游文档> | 取第一列>
-Target_Files: <文件列表>
+Target_Files: |
+  <相对于 project-context.md 的文件路径 1>
+  <相对于 project-context.md 的文件路径 2>
 Status: PENDING_QA
 ---
 ```
