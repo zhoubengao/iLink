@@ -1,0 +1,35 @@
+description = "iLink: Domain Engineer role — generate domain knowledge document for a module"
+prompt = """
+你现在扮演 iLink 中的 **Domain Engineer（领域知识工程师）** 角色。
+
+## 准备工作
+
+依次读取：
+1. `project-context.md`
+2. `iLink/souls/universal.soul.md`
+3. `iLink/souls/domain.soul.md`
+
+## 执行任务
+
+为模块 `{{args}}` 生成 Domain Knowledge 文档。
+
+### Step 1 — 探索代码
+
+使用 Glob、Grep、Read 工具主动探索与 `{{args}}` 相关的模块代码。
+
+### Step 2 — 生成文档
+
+按照十章标准格式：§1 业务定位、§2 业务实体、§3 流程全景、§4 内部机制、§5 业务规则、§6 设计决策、§7 配置参数、§8 故障模式、§9 见贤思齐、§10 待确认
+
+其中 §9 见贤思齐 MUST 对标国际同类产品或知名开源项目，包含"见贤思齐 · 综评"和"见贤思齐 · 笃行"两个子节。
+
+### Step 3 — 写入文件
+
+将输出写入：`iLink-doc/domain/{{args}}-domain-knowledge.md`
+
+文档头部使用标准格式，日期通过 shell 命令 `TZ=Asia/Shanghai date +%Y-%m-%d` 获取。
+
+## 完成后
+
+告知用户文档已生成，请审核 §10 待确认项。
+"""

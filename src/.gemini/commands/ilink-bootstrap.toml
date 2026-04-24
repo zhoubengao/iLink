@@ -1,0 +1,92 @@
+description = "iLink: Bootstrap — project initialization to enable full iLink pipeline environment"
+prompt = """
+你现在执行 iLink 的 **项目 Bootstrap（冷启动）** 操作。
+
+**目标**：让当前项目具备运行 iLink 流水线的完整环境。执行完毕后，无论哪个 AI 平台的用户打开本项目，都能被引导到 iLink 工作体系。
+
+## 前置检查
+
+### 步骤 1：检查 iLink 框架文件
+
+确认以下文件存在，缺失则告知用户需要先复制 iLink 框架文件到项目：
+- `iLink/iLink-root-spec.md`
+- `iLink/souls/universal.soul.md`
+- `iLink/souls/pm.soul.md`
+- `iLink/souls/design.soul.md`
+- `iLink/souls/coder.soul.md`
+- `iLink/souls/qa.soul.md`
+- `iLink/souls/domain.soul.md`
+
+如果以上文件全部缺失，停止执行，提示用户先复制 iLink 框架。
+
+### 步骤 2：检查 Gemini CLI 命令文件
+
+确认 `.gemini/commands/` 下存在以下 `.toml` 文件：
+- `ilink-init.toml`, `ilink-pm.toml`, `ilink-design.toml`, `ilink-coder.toml`, `ilink-qa.toml`, `ilink-refine.toml`, `ilink-domain.toml`, `ilink-approve.toml`, `ilink-status.toml`
+
+缺失时给出警告（不阻塞）。
+
+## 步骤 3：检查现有 project-context.md
+
+读取 `project-context.md`，如果已存在且内容完整，跳到步骤 5。
+如果不存在或内容为空/模板状态，执行步骤 4。
+
+## 步骤 4：分析项目并生成 project-context.md
+
+**主动探索项目结构**，使用 Glob、Grep、Read 工具分析：
+
+1. **项目基本信息**：查找构建文件（pom.xml、package.json 等）确定技术栈，查找 README.md 获取概述，查找 CLAUDE.md 和 AGENTS.md 并判断内容类型（iLink 引导 vs 非 iLink 项目说明）
+2. **技术约束**：语言版本、框架版本、构建命令
+3. **模块职责**：目录结构、模块依赖关系
+4. **架构原则**：设计模式、API 入口
+5. **包命名规范**：从源码目录推断
+6. **构建与测试**：构建命令、测试框架
+
+将分析结果写入 `project-context.md`，使用标准结构：§1 项目概述、§2 技术约束（表格）、§3 模块职责、§4 架构原则、§5 包命名规范、§6 构建与测试、§7 特殊说明
+
+**重要**：`project-context.md` 是项目知识的**单一事实源**。如果从 CLAUDE.md / AGENTS.md 迁移了内容，MUST 完整写入，不要使用引用方式。
+
+## 步骤 5：更新 CLAUDE.md
+
+读取 `CLAUDE.md`，按以下情况处理：
+- **不存在** → 创建包含 iLink 薄路由的最小文件
+- **已是 iLink**（包含"iLink 协作协议"关键词）→ 跳过
+- **非 iLink** → 备份为 `CLAUDE.md.bak.YYYYMMDD_HHMMSS`，迁移内容到 project-context.md 后，重写为 iLink 薄路由
+
+薄路由 MUST 包含：AI 行为规则（读取/写入/`/init` 处理/本文件保护规则）、iLink 协作协议、核心文件列表、流水线命令说明。
+
+## 步骤 6：更新 AGENTS.md
+
+处理逻辑同步骤 5，文件名为 `AGENTS.md`。
+
+薄路由 MUST 包含：AI 行为规则、iLink 协作协议、核心文件表格、快速开始步骤、角色触发说明、Shell 工具表格。
+
+## 步骤 7：创建 iLink-doc 目录
+
+如果 `iLink-doc/` 目录不存在，创建它。
+
+## 步骤 8：执行验证
+
+输出验证报告表格：
+- iLink 框架文件：✅ / ❌
+- project-context.md：✅ 已存在 / 🆕 已生成 / 🔄 已迁移 / ❌ 缺失
+- CLAUDE.md iLink 引导：✅ / 🆕 / 🔄
+- AGENTS.md iLink 引导：✅ / 🆕 / 🔄
+- iLink-doc/ 目录：✅ / 🆕
+- Gemini Command 文件：✅ / ⚠️ 部分缺失
+
+如果发生迁移，输出迁移说明警告。
+
+## 步骤 9：输出下一步操作
+
+```
+✅ iLink Bootstrap 完成！
+
+下一步：
+1. 检查 project-context.md，补充或修正项目信息
+2. 检查 CLAUDE.md 和 AGENTS.md 中的 iLink 引导信息
+3. 提交 Bootstrap 产出：git add project-context.md CLAUDE.md AGENTS.md iLink-doc/
+   git commit -m "iLink bootstrap: 初始化项目协作环境"
+4. 创建第一个 Story：/ilink-init <story-id>
+```
+"""

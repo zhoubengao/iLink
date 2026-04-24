@@ -2,7 +2,7 @@
 
 > **读者**：使用 iLink 进行日常开发的工程师
 > **前提**：项目已完成 Bootstrap（`project-context.md` 和入口文件已就位）
-> **版本**：v1.3.00
+> **版本**：v1.4.00
 
 ---
 
@@ -538,7 +538,7 @@ AI 会自动把信息写到 `project-context.md` 的对应章节。
 如果你把项目信息写在 `CLAUDE.md` 里，会导致：
 - `CLAUDE.md` 说一件事，`project-context.md` 说另一件事
 - AI 不确定以哪个为准
-- 不同平台（Claude/Codex/Qoder）看到不同的信息
+- 不同平台（Claude/Codex/Qoder/Gemini）看到不同的信息
 
 **所有项目知识 → `project-context.md`，无例外。**
 
@@ -887,6 +887,7 @@ Domain Knowledge 对交付流水线是**可选增强**：
 ├── .claude/commands/               ← Claude CLI 命令
 ├── .codex/commands/                ← Codex CLI 命令
 ├── .qoder/commands/                ← Qoder CLI 命令
+├── .gemini/commands/               ← Gemini CLI 命令
 └── src/                            ← 源代码
 ```
 

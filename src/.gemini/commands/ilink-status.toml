@@ -1,0 +1,51 @@
+description = "iLink: Status — view pipeline status for all Stories or a specific Story"
+prompt = """
+你现在查看 iLink 流水线的状态。
+
+## 如果没有指定 Story
+
+列出 `iLink-doc/` 下所有 Story 的概览表格：
+
+| Story | 当前阶段 | 状态 |
+|-------|---------|------|
+
+按以下规则判断阶段和状态：
+- 存在 `review.master.md`：阶段=QA 审查；Status=COMPLETED/FAIL_BACK_TO_CODER/STAGING
+- 存在 `code.master.md`：阶段=编码完成；Status=PENDING_QA
+- 存在 `design.master.md`：阶段=设计；Status=STAGING（设计待审核）/PENDING_CODER
+- 存在 `pm.master.md`：阶段=PM 完成；Status=PENDING_DESIGNER/STAGING
+- 仅存在 `需求定义.md`：阶段=需求定义
+- 无文档：阶段=未初始化
+
+最后提示：`/ilink-status <story>` 查看详细状态
+
+## 如果指定了 Story（{{args}}）
+
+### 步骤 1：确认 Story 目录存在
+
+检查 `iLink-doc/{{args}}/`，不存在则报错。
+
+### 步骤 2：检查回流次数
+
+读取 `.retry_count` 文件（如存在），显示回流次数。如果 ≥3，输出熔断警告。
+
+### 步骤 3：输出文档状态表格
+
+| 文档 | 状态 |
+|------|------|
+
+逐一检查：`{{args}}-需求定义.md`、`pm.master.md`、`design.master.md`、`code.master.md`、`review.master.md`
+
+### 步骤 4：输出当前阶段和下一步
+
+根据文件存在情况和 Metadata Status 判断：
+- review 存在且 COMPLETED → ✅ 已完成，建议 git commit
+- review 存在且 FAIL_BACK_TO_CODER → 需要回流，输出 FIX_REQUESTS 摘要
+- review 存在且 STAGING → 上游问题，输出 UPSTREAM_BLOCKERS 摘要
+- code 存在 → 下一步 `/ilink-qa {{args}}`
+- design 存在且 STAGING → 设计待审核，下一步 `/ilink-approve {{args}}` 后 `/ilink-coder {{args}}`
+- design 存在且 PENDING_CODER → 下一步 `/ilink-coder {{args}}`
+- pm 存在 → 下一步 `/ilink-design {{args}}`
+- 仅需求定义 → 下一步 `/ilink-pm {{args}}`
+- 未初始化 → 下一步 `/ilink-init {{args}}`
+"""

@@ -205,7 +205,7 @@
 
 ---
 # ILINK-PROTOCOL-METADATA
-Protocol_Version: v1.3.00
+Protocol_Version: v1.4.00
 Role: DESIGNER
 AI_Vendor: <Host CLI 品牌名，如 Claude / Qoder / Codex>
 AI_Model: <工具版本或底层模型 ID（若允许披露）>

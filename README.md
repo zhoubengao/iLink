@@ -34,7 +34,7 @@ iLink 承担两项使命：**交付模式**将单一 AI 拆分为 4 个专职角
 - **Story 隔离**：每个需求一个独立目录，完整文档链，互不干扰，天然适配 Jira/工单驱动的迭代开发
 - **Metadata 印章**：每份文档记录角色、AI 模型、时间戳、上游文档 SHA1 哈希，构成可追溯的决策链
 - **模型无关**：核心资产全部是纯 Markdown，不绑定特定 LLM。Claude、GPT、Qwen 均可使用
-- **多平台支持**：同一套协议可运行在 Claude CLI、Qoder CLI、Codex CLI 等不同 Host CLI 上
+- **多平台支持**：同一套协议可运行在 Claude CLI、Qoder CLI、Codex CLI、Gemini CLI 等不同 Host CLI 上
 - **Domain Knowledge（领域知识）**：认知模式下 AI 读取既有源码，生成 10 章标准领域知识文档——业务实体、流程全景、设计决策、见贤思齐，由资深工程师引导，沉淀为团队认知资产。其中§9「见贤思齐」对标国际知名开源产品，将"设计理念"与"工程实现"分开评价，帮助团队既看到设计的精妙之处，也认清代码的真实质量
 - **CLI-native**：不自建 LLM 调用层，充分利用 Host CLI 的原生能力
 
@@ -43,7 +43,7 @@ iLink 承担两项使命：**交付模式**将单一 AI 拆分为 4 个专职角
 ### 前置条件
 
 - 一个已有的项目（任何语言、任何框架）
-- 已安装至少一个支持的 Host CLI（Claude CLI / Qoder CLI / Codex CLI）
+- 已安装至少一个支持的 Host CLI（Claude CLI / Qoder CLI / Codex CLI / Gemini CLI）
 
 ### 第一步：复制 iLink 到你的项目
 
@@ -60,6 +60,9 @@ cp -r .qoder/ <your-project>/.qoder/
 
 # Codex CLI 用户：
 cp -r .codex/ <your-project>/.codex/
+
+# Gemini CLI 用户：
+cp -r .gemini/ <your-project>/.gemini/
 ```
 
 ### 第二步：项目冷启动（一次性）
@@ -117,7 +120,7 @@ git commit -m "kcia-1520: 功能描述（iLink 交付）"
 └──────────────┬───────────────────────────┘
                │ 手动触发
 ┌──────────────▼───────────────────────────┐
-│    Host CLI（Claude / Qoder / Codex）      │
+│    Host CLI（Claude / Qoder / Codex / Gemini）   │
 │  原生能力：LLM 调用、代码搜索、文件读写     │
 ├──────────────────────────────────────────┤
 │    Slash Command 层（声明式 Markdown）      │
@@ -216,6 +219,7 @@ Command 文件（平台实现，"操作手册"）
 ├── .claude/commands/                   ← Claude CLI 命令
 ├── .qoder/commands/                    ← Qoder CLI 命令
 ├── .codex/commands/                    ← Codex CLI 命令
+├── .gemini/commands/                   ← Gemini CLI 命令
 └── src/                                ← 你的源代码
 ```
 
@@ -226,6 +230,7 @@ Command 文件（平台实现，"操作手册"）
 | **Claude CLI** | `.claude/commands/*.md` | `/ilink-pm <story>` |
 | **Qoder CLI** | `.qoder/commands/*` | `/ilink-pm <story>` |
 | **Codex CLI** | `.codex/commands/*` | 对话中输入 `ilink-pm <story>` |
+| **Gemini CLI** | `.gemini/commands/*.toml` | `/ilink-pm <story>` |
 
 同一个项目中，不同开发者可以使用不同的 CLI 工具——Master Doc 格式统一，跨平台无缝接力。
 
@@ -322,7 +327,7 @@ iLink 可以与上述方案共存，为其提供补充能力：
 
 ## 版本
 
-当前版本：**v1.3.00**（正式版）
+当前版本：**v1.4.00**（正式版）
 
 - Root Spec: `iLink-root-spec.md`
 - Implementation Guide: `iLink-implementation-guide.md`

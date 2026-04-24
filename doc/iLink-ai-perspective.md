@@ -642,15 +642,15 @@ Bootstrap 本身就提升了 AI 的项目理解力，即使你从不执行 `/ili
 
 **iLink 是模型无关的。** 同一个项目：
 
-| 同事 A | 同事 B | 同事 C |
-|-------|-------|-------|
-| Claude Code | Codex CLI | Qoder |
-| 读 CLAUDE.md → 发现 iLink | 读 AGENTS.md → 发现 iLink | 读 .qoder/commands/ → 发现 iLink |
-| 读 project-context.md | 读 project-context.md | 读 project-context.md |
+| 同事 A | 同事 B | 同事 C | 同事 D |
+|-------|-------|-------|-------|
+| Claude Code | Codex CLI | Qoder | Gemini CLI |
+| 读 CLAUDE.md → 发现 iLink | 读 AGENTS.md → 发现 iLink | 读 .qoder/commands/ → 发现 iLink | 读取 `.gemini/commands/` 目录 → 发现 iLink |
+| 读 project-context.md | 读 project-context.md | 读 project-context.md | 读 project-context.md |
 
 **所有人看到同一个 `project-context.md`，同一套 Soul 文件，同一份 Root Spec。**
 
-Story A 由 Claude 做 PM + Design，Story B 由 Qoder 做 Coder + QA——完全可以混用。
+Story A 由 Claude 做 PM + Design，Story B 由 Qoder 做 Coder + QA，Story C 由 Gemini 做 Review——完全可以混用。
 
 ---
 

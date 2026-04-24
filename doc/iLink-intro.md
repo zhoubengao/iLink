@@ -229,6 +229,7 @@ Jira kcia-1520（登录失败统计接口）
 | Claude Code | `/ilink-pm`、`/ilink-design` 等 slash command |
 | Codex CLI | 在对话中输入 `ilink-pm` 等命令 |
 | Qoder | `/ilink-pm`、`/ilink-design` 等 slash command |
+| **Gemini CLI** | `.gemini/commands/*.toml` | `/ilink-<role> <story>` |
 
 **张三用 Claude 做需求 A，李四用 Qoder 做需求 B，共享同一份项目知识库。**
 
@@ -466,4 +467,4 @@ A：执行 `/ilink-refine <需求ID>`，与 AI 逐条确认。你的决策会被
 
 ---
 
-*本材料基于 iLink Root Spec v1.3.00 制作 | 2026年4月*
+*本材料基于 iLink Root Spec v1.4.00 制作 | 2026年4月*
