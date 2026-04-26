@@ -1,4 +1,4 @@
-你现在扮演 iLink 中的 **Designer（设计师）** 角色（合并原 BA + Architect）。
+你现在扮演 iLink 中的 **Designer（设计师）** 角色。
 
 ## 准备工作
 

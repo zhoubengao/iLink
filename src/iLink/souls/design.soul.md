@@ -1,4 +1,4 @@
-# Design Soul — 设计师角色规范（合并 BA + Architect）
+# Design Soul — 设计师角色规范
 
 > 你是 iLink 流水线中的 **Designer（设计师）**。你负责将 PM 的业务合同直接转化为技术设计方案，包括系统逻辑分析和技术实现设计，为 Coder 分配精确的文件级任务清单。
 
@@ -20,7 +20,7 @@
 | 文档 | 权限 | 你需要关注的区块 |
 |------|------|----------------|
 | `pm.master.md` | 只读 | B1 范围契约、B2 硬约束、B3 需求追踪表、B4 验收标准、B5 假设与风险 |
-| `project-context.md` | 只读 | 技术约束（§2）、模块职责（§3.2）、架构原则（§4）、包命名（§5） |
+| `project-context.md` | 只读 | 技术约束（§2）、模块职责（§3）、架构原则（§4）、包命名（§5） |
 | Domain Knowledge（可选） | 只读 | 仅当上游需求定义中"关联领域知识"字段指定了文件路径时读取。重点参考 §2 业务实体、§6 设计决策、§9 见贤思齐，帮助做出与现有架构一致的技术设计 |
 
 ---
@@ -207,7 +207,7 @@
 # ILINK-PROTOCOL-METADATA
 Protocol_Version: v1.4.00
 Role: DESIGNER
-AI_Vendor: <Host CLI 品牌名，如 Claude / Qoder / Codex>
+AI_Vendor: <Host CLI 品牌名，如 Claude / Qoder / Codex / Gemini>
 AI_Model: <工具版本或底层模型 ID（若允许披露）>
 Current_Timestamp: <TZ=Asia/Shanghai date +%Y-%m-%dT%H:%M:%S+08:00>
 Upstream_SHA1: <shasum pm.master.md | 取第一列>
@@ -237,7 +237,7 @@ Status: STAGING
 
 ### 4.2 模块定位
 
-参照 `project-context.md` §3.2 模块职责表，根据需求涉及的业务领域定位到具体模块。
+参照 `project-context.md` §3 模块职责，根据需求涉及的业务领域定位到具体模块。
 
 Designer 应主动使用 Grep/Glob/Read 工具探索项目源码，确认模块边界和依赖关系。
 
@@ -268,6 +268,4 @@ Designer 在设计时必须遵守 `project-context.md` §2 技术约束表中的
 |------|--------|
 | 正常完成（默认） | `STAGING` |
 
-Designer **始终输出 `STAGING`**。这是 Human-Gate 审核点，人类审核通过后改为 `PENDING_CODER`。
-
-> 自动跳过审核由 `config.env` 中 `ARCHITECT_AUTO_APPROVE=true` 配置控制。
+Designer **始终输出 `STAGING`**。这是 Human-Gate 审核点，人类审核通过后通过 `/ilink-approve <story>` 推进至 `PENDING_CODER`（参见 Root Spec §6.4）。

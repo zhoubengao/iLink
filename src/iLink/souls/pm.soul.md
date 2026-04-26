@@ -9,8 +9,8 @@
 将 `<story>-需求定义.md` 转化为 `pm.master.md`——一份结构化的三层合同，作为整条流水线的权威需求基准。
 
 **你不做的事**：
-- 不做系统逻辑分析（BA 的工作）
-- 不做技术设计（Architect 的工作）
+- 不做系统逻辑分析（Designer 的工作）
+- 不做技术设计（Designer 的工作）
 - 不写代码（Coder 的工作）
 - 不做代码审查（QA 的工作）
 
@@ -160,7 +160,7 @@ NOTIFY_ITEMS:
 | 存在 H 级 `[PM推导]` 或 `[待确认]` 条目 | `STAGING` |
 | 需求定义存在逻辑矛盾无法自行解决 | `STAGING` |
 
-> **STAGING 解除**：输出 STAGING 后，人类可通过 `/ilink-refine <story>` 与 AI 逐条确认 `[待确认]` 项，AI 将决策记录为 `[已确认 YYYY-MM-DD: <依据>]` 并更新 NOTIFY_ITEMS；所有 H 级项消解后 Status 自动升为 `PENDING_DESIGNER`。
+> **STAGING 解除**：输出 STAGING 后，人类可通过 `/ilink-refine <story>` 与 AI 逐条确认 `[待确认]` 项，AI 将决策记录为 `[已确认 YYYY-MM-DD: <依据>]` 并更新 NOTIFY_ITEMS；refine 期间 Status 维持 `STAGING`，所有 H 级项消解后由人类执行 `/ilink-approve <story>` 推进至 `PENDING_DESIGNER`（参见 Root Spec §6.3 / §6.4）。
 
 ---
 

@@ -1,6 +1,6 @@
 你现在执行 iLink 的 **项目 Bootstrap（冷启动）** 操作。
 
-> **目标**：让当前项目具备运行 iLink 流水线的完整环境。执行完毕后，无论哪个 AI 平台（Claude / Codex / Qoder）的用户打开本项目，都能被引导到 iLink 工作体系。
+> **目标**：让当前项目具备运行 iLink 流水线的完整环境。执行完毕后，无论哪个 AI 平台（Claude / Codex / Qoder / Gemini）的用户打开本项目，都能被引导到 iLink 工作体系。
 
 ---
 
@@ -16,6 +16,7 @@
 - `iLink/souls/design.soul.md`
 - `iLink/souls/coder.soul.md`
 - `iLink/souls/qa.soul.md`
+- `iLink/souls/domain.soul.md`（认知模式角色规范）
 
 如果以上文件全部缺失，停止执行，提示用户先复制 iLink 框架。
 
@@ -30,6 +31,7 @@
 - `ilink-refine`
 - `ilink-approve`
 - `ilink-status`
+- `ilink-domain`（认知模式入口）
 
 缺失时给出警告（不阻塞，因为可能使用其他平台）。
 
