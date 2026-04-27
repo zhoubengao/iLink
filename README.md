@@ -327,7 +327,7 @@ iLink 可以与上述方案共存，为其提供补充能力：
 
 ## 版本
 
-当前版本：**v1.4.00**（正式版）
+当前版本：**v1.4.10**（正式版）
 
 - Root Spec: `iLink-root-spec.md`
 - Implementation Guide: `iLink-implementation-guide.md`

@@ -45,7 +45,7 @@ Domain Engineer                       （认知模式，由资深人员主动触
 ```
 ---
 # ILINK-PROTOCOL-METADATA
-Protocol_Version: v1.4.00
+Protocol_Version: v1.4.10
 Role: <你的角色大写：PM / DESIGNER / CODER / QA>
 AI_Vendor: <你的 Host CLI 品牌名，如 Claude / Qoder / Codex / Gemini>
 AI_Model: <你的工具版本或底层模型 ID（若允许披露）>

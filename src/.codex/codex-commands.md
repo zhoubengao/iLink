@@ -58,7 +58,7 @@
 ```
 ---
 # ILINK-PROTOCOL-METADATA
-Protocol_Version: v1.4.00
+Protocol_Version: v1.4.10
 Role: PM
 AI_Vendor: Codex
 AI_Model: <工具版本号>
@@ -107,7 +107,7 @@ Status: PENDING_DESIGNER
 ```
 ---
 # ILINK-PROTOCOL-METADATA
-Protocol_Version: v1.4.00
+Protocol_Version: v1.4.10
 Role: DESIGNER
 AI_Vendor: Codex
 AI_Model: <工具版本号>
@@ -166,7 +166,7 @@ Status: STAGING
 ```
 ---
 # ILINK-PROTOCOL-METADATA
-Protocol_Version: v1.4.00
+Protocol_Version: v1.4.10
 Role: CODER
 AI_Vendor: Codex
 AI_Model: <工具版本号>
@@ -227,7 +227,7 @@ Status: PENDING_QA
 ```
 ---
 # ILINK-PROTOCOL-METADATA
-Protocol_Version: v1.4.00
+Protocol_Version: v1.4.10
 Role: QA
 AI_Vendor: Codex
 AI_Model: <工具版本号>
@@ -320,7 +320,7 @@ Status: <COMPLETED | FAIL_BACK_TO_CODER | STAGING>
 - 读取 `iLink/souls/domain.soul.md`
 
 ### 前置检查
-- 确认 `iLink/souls/domain.soul.md` 存在，不存在则提示用户升级 iLink 到 v1.4.00
+- 确认 `iLink/souls/domain.soul.md` 存在，不存在则提示用户升级 iLink 到 v1.4.10
 - 确认 `iLink-doc/domain/` 目录存在，不存在则创建
 
 ### 执行

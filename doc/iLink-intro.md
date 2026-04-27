@@ -467,4 +467,4 @@ A：执行 `/ilink-refine <需求ID>`，与 AI 逐条确认。你的决策会被
 
 ---
 
-*本材料基于 iLink Root Spec v1.4.00 制作 | 2026年4月*
+*本材料基于 iLink Root Spec v1.4.10 制作 | 2026年4月*
