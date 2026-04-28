@@ -1,0 +1,53 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# ilink-sdd [scope] - Trigger SDD Applicability Assessment
+
+DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck source=/dev/null
+source "$DIR/_common.sh"
+
+scope="${1:-project}"
+output_dir="iLink-doc/sdd"
+output_file="$output_dir/sdd-assessment-${scope}.md"
+
+# Check sdd.soul.md exists
+if [[ ! -f "iLink/souls/sdd.soul.md" ]]; then
+  log_error "Missing: iLink/souls/sdd.soul.md"
+  echo "请确认 iLink 框架已包含 SDD Assessment 角色规范。"
+  exit 1
+fi
+
+# Check sdd-analysis.md exists as reference (optional but recommended)
+if [[ ! -f "iLink-doc/sdd-analysis.md" ]]; then
+  log_warn "Missing: iLink-doc/sdd-analysis.md（可选延伸阅读，soul 已内化判据）"
+fi
+
+# Create output directory if not exists
+if [[ ! -d "$output_dir" ]]; then
+  mkdir -p "$output_dir"
+  log_info "Created directory: $output_dir"
+fi
+
+# Check if assessment already exists
+if [[ -f "$output_file" ]]; then
+  log_warn "SDD Assessment already exists: $output_file"
+  echo ""
+  read -p "Overwrite? (y/N) " -n 1 -r
+  echo
+  if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+    exit 0
+  fi
+fi
+
+echo ""
+echo "现在可以在 Codex 对话中执行: ilink-sdd $scope"
+echo ""
+echo "提示: SDD Assessment Engineer 将："
+echo "  1. 读取 sdd.soul.md §3 内化的评估方法论"
+echo "  2. 探索 $scope 相关的源码和模块结构"
+echo "  3. 应用三步过滤链 + 实例规模标尺 + 内部 DSL 覆盖度"
+echo "  4. 按九章标准格式输出 SDD 应用场景评估报告"
+echo "  5. 写入 $output_file"
+echo ""
+echo "完成后请审核评估报告，确认评估结论与实际情况一致。"

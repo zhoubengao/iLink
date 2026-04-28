@@ -18,6 +18,7 @@
 | `ilink-qa <story>` | QA（质量审查员） | `ilink-qa jzjy-0001` |
 | `ilink-refine <story>` | 修订对话（STAGING 阻塞解除） | `ilink-refine jzjy-0001` |
 | `ilink-domain <module>` | Domain Engineer（领域知识生成，认知模式） | `ilink-domain login-410301` |
+| `ilink-sdd [scope]` | SDD Assessment Engineer（SDD 适配度评估，认知模式） | `ilink-sdd project` |
 
 > 匹配不区分大小写，`/ilink-pm`、`ilink-pm`、`ILINK-PM` 均视为同一命令。
 
@@ -58,7 +59,7 @@
 ```
 ---
 # ILINK-PROTOCOL-METADATA
-Protocol_Version: v1.4.10
+Protocol_Version: v1.4.11
 Role: PM
 AI_Vendor: Codex
 AI_Model: <工具版本号>
@@ -107,7 +108,7 @@ Status: PENDING_DESIGNER
 ```
 ---
 # ILINK-PROTOCOL-METADATA
-Protocol_Version: v1.4.10
+Protocol_Version: v1.4.11
 Role: DESIGNER
 AI_Vendor: Codex
 AI_Model: <工具版本号>
@@ -166,7 +167,7 @@ Status: STAGING
 ```
 ---
 # ILINK-PROTOCOL-METADATA
-Protocol_Version: v1.4.10
+Protocol_Version: v1.4.11
 Role: CODER
 AI_Vendor: Codex
 AI_Model: <工具版本号>
@@ -227,7 +228,7 @@ Status: PENDING_QA
 ```
 ---
 # ILINK-PROTOCOL-METADATA
-Protocol_Version: v1.4.10
+Protocol_Version: v1.4.11
 Role: QA
 AI_Vendor: Codex
 AI_Model: <工具版本号>
@@ -320,7 +321,7 @@ Status: <COMPLETED | FAIL_BACK_TO_CODER | STAGING>
 - 读取 `iLink/souls/domain.soul.md`
 
 ### 前置检查
-- 确认 `iLink/souls/domain.soul.md` 存在，不存在则提示用户升级 iLink 到 v1.4.10
+- 确认 `iLink/souls/domain.soul.md` 存在，不存在则提示用户升级 iLink 到 v1.4.11
 - 确认 `iLink-doc/domain/` 目录存在，不存在则创建
 
 ### 执行
@@ -361,6 +362,88 @@ Status: <COMPLETED | FAIL_BACK_TO_CODER | STAGING>
 - 提醒审核 §10 待确认项，找业务专家逐条确认
 - 确认完毕后更新状态为"已审核"，填写发起人和业务审核人
 - 执行 `git add iLink-doc/domain/` 纳入版本控制
+
+---
+
+## ilink-sdd [scope] — SDD Assessment Engineer 角色（认知模式）
+
+> **定位**：SDD Assessment Engineer 不是交付流水线角色，不产生 STAGING / PENDING 等流水线状态。由资深人员主动触发，用于对项目或模块评估 SDD（Schema-Driven Development）的应用适配度。
+
+### 准备
+- 读取 `iLink/souls/sdd.soul.md`（评估方法论已内化于 §3）
+- 可选延伸阅读：`iLink-doc/sdd-analysis.md`（SDD 方法论完整论证文档；除非用户明确要求引用原文，否则以 soul 文件为准）
+
+### 前置检查
+- 确认 `iLink/souls/sdd.soul.md` 存在，不存在则提示用户升级 iLink 框架
+- 确认 `iLink-doc/sdd/` 目录存在，不存在则创建
+
+### 执行任务
+
+任务范围 `<scope>`：为空或 `project` 时评估整个项目；否则评估指定模块。
+
+#### Step 1 — 探索项目
+
+使用 Glob、Grep、Read 工具主动探索：
+
+1. 读取 `project-context.md` 了解技术栈、模块结构、构建约束
+2. 识别所有待评估的模块/子系统
+3. 对每个模块，探索其 BEX 功能码分布、Service 层结构、Entity/DAO 层结构
+4. 识别是否已有内部 DSL/配置化抽象（如 BEX XML、规则引擎、配置表等）
+
+> **代码优先**：代码和架构是最精确的事实来源。直接读代码和结构提炼，不依赖主观猜测。
+
+#### Step 2 — 生成评估报告
+
+按 sdd.soul.md §4.2 定义的九章标准格式输出：
+
+- §1 项目画像
+- §2 评估方法论概要
+- §3 模块分层地图
+- §4 高适配度模块详评（★★★★☆ 及以上）
+- §5 中等适配度模块详评（★★★☆☆）
+- §6 低适配度模块详评（★★☆☆☆ 及以下）
+- §7 四层对照分析
+- §8 评估结论与建议
+- §9 速查决策表
+
+评估方法论判据 MUST 严格遵循 sdd.soul.md §3：
+
+- §3.4 实例规模量化标尺（一票否决，1~4 实例直接 ★☆☆☆☆）
+- §3.5 三步过滤链（排除框架同构 → 限定治理边界 → 模式实例性检验）
+- §3.6 四层对照对象（硬编码 / 配置化 / 内部 DSL / AI 直接派生）
+- §3.7 内部 DSL 覆盖度三等级（无 / 部分 / 深度，对适配度的下调幅度）
+- §3.8 评级标尺（★~★★★★★ 五档判据）
+
+### 输出
+- 写入 `iLink-doc/sdd/sdd-assessment-<scope>.md`
+
+### 文档头部
+
+```markdown
+# SDD 应用场景评估报告 — <评估范围>
+
+> **项目**: <项目名称>
+> **评估范围**: <全项目 / 特定模块>
+> **评估人**: [待填写]
+> **审核人**: [待填写]
+> **最后更新**: <执行 TZ=Asia/Shanghai date +%Y-%m-%d 获取实际日期>
+> **状态**: 草稿
+> **评估依据**: iLink/souls/sdd.soul.md §3（评估方法论内化判据）
+
+## 版本历史
+
+| 版本 | 日期 | 评估人 | 触发原因 | 更新范围 |
+|------|------|--------|---------|---------|
+| v1.0 | <实际日期> | [待填写] | 初始评估 | 全文 |
+```
+
+> 日期 MUST 通过命令实际获取，不得留占位符。SDD Assessment 不使用 ILINK-PROTOCOL-METADATA 印章。
+
+### 完成后
+- 告知用户评估报告已生成，路径为 `iLink-doc/sdd/sdd-assessment-<scope>.md`
+- 提醒用户审核评估结论，确认与实际情况一致
+- 确认完毕后将文档头部状态更新为"已审核"，填写评估人和审核人
+- 执行 `git add iLink-doc/sdd/` 将报告纳入版本控制
 
 ---
 

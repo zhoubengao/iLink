@@ -2,7 +2,7 @@
 set -euo pipefail
 
 # iLink - Common Functions
-# Based on iLink Root Spec v1.4.10
+# Based on iLink Root Spec v1.4.11
 
 story_required() {
   if [[ $# -lt 1 || -z "${1}" ]]; then
