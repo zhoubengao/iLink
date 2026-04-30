@@ -19,7 +19,7 @@
 2. 存在 `code.master.md` → 编码完成
 3. 存在 `design.master.md` → 读取 Status：STAGING=设计待审核，其他=设计完成
 4. 存在 `pm.master.md` → 读取 Status：STAGING=PM 待审核，其他=PM 完成
-5. 存在 `需求定义.md` → 需求已定义
+5. 存在 `requirement.md` → 需求已定义
 6. 否则 → 未初始化
 
 ### 有参数模式
@@ -28,7 +28,7 @@
 
 1. 确认 `iLink-doc/$ARGUMENTS/` 目录存在
 2. 逐个检查以下文件，读取末尾 Metadata 中的 Status 字段：
-   - `$ARGUMENTS-需求定义.md`
+   - `$ARGUMENTS-requirement.md`
    - `$ARGUMENTS-pm.master.md`
    - `$ARGUMENTS-design.master.md`
    - `$ARGUMENTS-code.master.md`

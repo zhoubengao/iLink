@@ -55,7 +55,7 @@ if [[ $# -lt 1 || -z "${1}" ]]; then
       elif [[ -f "$base_dir/${story}-pm.master.md" ]]; then
         status=$(check_status "$base_dir/${story}-pm.master.md")
         stage="PM完成"
-      elif [[ -f "$base_dir/${story}-需求定义.md" ]]; then
+      elif [[ -f "$base_dir/${story}-requirement.md" ]]; then
         stage="需求定义"
       fi
 
@@ -95,7 +95,7 @@ echo "文档状态："
 echo "| 文档 | 状态 |"
 echo "|------|------|"
 
-for doc in "${story}-需求定义.md" "${story}-pm.master.md" "${story}-design.master.md" "${story}-code.master.md" "${story}-review.master.md"; do
+for doc in "${story}-requirement.md" "${story}-pm.master.md" "${story}-design.master.md" "${story}-code.master.md" "${story}-review.master.md"; do
   doc_path="$base_dir/$doc"
   if [[ -f "$doc_path" ]]; then
     status=$(check_status "$doc_path")
@@ -174,7 +174,7 @@ elif [[ -f "$base_dir/${story}-pm.master.md" ]]; then
     echo "当前阶段: PM 需求分析完成"
     echo "下一步: 执行 ilink-design $story"
   fi
-elif [[ -f "$base_dir/${story}-需求定义.md" ]]; then
+elif [[ -f "$base_dir/${story}-requirement.md" ]]; then
   echo "当前阶段: 需求定义已创建"
   echo "下一步: 执行 ilink-pm $story"
 else

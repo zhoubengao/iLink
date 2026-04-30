@@ -9,7 +9,7 @@ prompt = """
 ### 步骤 1：创建目录和文件
 
 1. 创建目录 `iLink-doc/{{args}}/`
-2. 创建空模板文件 `iLink-doc/{{args}}/{{args}}-需求定义.md`
+2. 创建空模板文件 `iLink-doc/{{args}}/{{args}}-requirement.md`
 
 ### 步骤 2：需求定义模板
 

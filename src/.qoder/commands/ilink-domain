@@ -20,7 +20,7 @@ output_file="$domain_dir/${module}-domain-knowledge.md"
 # Check domain.soul.md exists
 if [[ ! -f "iLink/souls/domain.soul.md" ]]; then
   log_error "Missing: iLink/souls/domain.soul.md"
-  echo "请确认 iLink 框架已升级到 v1.4.11（包含 Domain Engineer 角色规范）"
+  echo "请确认 iLink 框架已升级到 v1.5.0（包含 Domain Engineer 角色规范）"
   exit 1
 fi
 

@@ -9,7 +9,7 @@
 ### 步骤 2：创建 Story 目录和需求定义模板
 
 1. 创建目录 `iLink-doc/$ARGUMENTS/`
-2. 创建文件 `iLink-doc/$ARGUMENTS/$ARGUMENTS-需求定义.md`，内容如下：
+2. 创建文件 `iLink-doc/$ARGUMENTS/$ARGUMENTS-requirement.md`，内容如下：
 
 ```
 # $ARGUMENTS：<请填写需求标题>
@@ -59,5 +59,5 @@
 ## 完成后
 
 告知用户：
-1. 编辑 `iLink-doc/$ARGUMENTS/$ARGUMENTS-需求定义.md`，填写需求内容
+1. 编辑 `iLink-doc/$ARGUMENTS/$ARGUMENTS-requirement.md`，填写需求内容
 2. 完成后执行 `/ilink-pm $ARGUMENTS` 继续流水线

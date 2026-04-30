@@ -40,7 +40,7 @@
 - 读取 `iLink/souls/pm.soul.md`
 
 ### 前置检查
-- 读取 `iLink-doc/<story>/<story>-需求定义.md`
+- 读取 `iLink-doc/<story>/<story>-requirement.md`
 - 如果不存在，提示用户先执行 `bash .codex/commands/ilink-init <story>`
 
 ### 关联领域知识检查
@@ -59,12 +59,12 @@
 ```
 ---
 # ILINK-PROTOCOL-METADATA
-Protocol_Version: v1.4.11
+Protocol_Version: v1.5.0
 Role: PM
 AI_Vendor: Codex
 AI_Model: <工具版本号>
 Current_Timestamp: <执行 TZ=Asia/Shanghai date +%Y-%m-%dT%H:%M:%S+08:00>
-Upstream_SHA1: <执行 shasum <story>-需求定义.md 取第一列>
+Upstream_SHA1: <执行 shasum <story>-requirement.md 取第一列>
 Target_Files:
 Status: PENDING_DESIGNER
 ---
@@ -108,7 +108,7 @@ Status: PENDING_DESIGNER
 ```
 ---
 # ILINK-PROTOCOL-METADATA
-Protocol_Version: v1.4.11
+Protocol_Version: v1.5.0
 Role: DESIGNER
 AI_Vendor: Codex
 AI_Model: <工具版本号>
@@ -167,7 +167,7 @@ Status: STAGING
 ```
 ---
 # ILINK-PROTOCOL-METADATA
-Protocol_Version: v1.4.11
+Protocol_Version: v1.5.0
 Role: CODER
 AI_Vendor: Codex
 AI_Model: <工具版本号>
@@ -228,7 +228,7 @@ Status: PENDING_QA
 ```
 ---
 # ILINK-PROTOCOL-METADATA
-Protocol_Version: v1.4.11
+Protocol_Version: v1.5.0
 Role: QA
 AI_Vendor: Codex
 AI_Model: <工具版本号>
@@ -321,7 +321,7 @@ Status: <COMPLETED | FAIL_BACK_TO_CODER | STAGING>
 - 读取 `iLink/souls/domain.soul.md`
 
 ### 前置检查
-- 确认 `iLink/souls/domain.soul.md` 存在，不存在则提示用户升级 iLink 到 v1.4.11
+- 确认 `iLink/souls/domain.soul.md` 存在，不存在则提示用户升级 iLink 到 v1.5.0
 - 确认 `iLink-doc/domain/` 目录存在，不存在则创建
 
 ### 执行

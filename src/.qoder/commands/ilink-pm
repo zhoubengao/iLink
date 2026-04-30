@@ -11,7 +11,7 @@ story_required "$@"
 story="$1"
 base_dir="$(story_dir "$story")"
 
-req_doc="$base_dir/${story}-需求定义.md"
+req_doc="$base_dir/${story}-requirement.md"
 
 require_file "$req_doc"
 

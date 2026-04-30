@@ -14,7 +14,7 @@ prompt = """
 - 存在 `code.master.md`：阶段=编码完成；Status=PENDING_QA
 - 存在 `design.master.md`：阶段=设计；Status=STAGING（设计待审核）/PENDING_CODER
 - 存在 `pm.master.md`：阶段=PM 完成；Status=PENDING_DESIGNER/STAGING
-- 仅存在 `需求定义.md`：阶段=需求定义
+- 仅存在 `requirement.md`：阶段=需求定义
 - 无文档：阶段=未初始化
 
 最后提示：`/ilink-status <story>` 查看详细状态
@@ -34,7 +34,7 @@ prompt = """
 | 文档 | 状态 |
 |------|------|
 
-逐一检查：`{{args}}-需求定义.md`、`pm.master.md`、`design.master.md`、`code.master.md`、`review.master.md`
+逐一检查：`{{args}}-requirement.md`、`pm.master.md`、`design.master.md`、`code.master.md`、`review.master.md`
 
 ### 步骤 4：输出当前阶段和下一步
 

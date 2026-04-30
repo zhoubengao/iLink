@@ -11,7 +11,7 @@ prompt = """
 
 ## 前置检查
 
-读取需求文件：`iLink-doc/{{args}}/{{args}}-需求定义.md`
+读取需求文件：`iLink-doc/{{args}}/{{args}}-requirement.md`
 如果该文件不存在，提示用户先执行 `/ilink-init {{args}}` 初始化 Story。
 
 如果文件存在且包含"关联领域知识"字段，读取指定的 Domain Knowledge 文件作为参考。
@@ -31,12 +31,12 @@ prompt = """
 ```markdown
 ---
 # ILINK-PROTOCOL-METADATA
-Protocol_Version: v1.4.11
+Protocol_Version: v1.5.0
 Role: PM
 AI_Vendor: Gemini
 AI_Model: <你的实际模型>
 Current_Timestamp: <执行 TZ=Asia/Shanghai date +%Y-%m-%dT%H:%M:%S+08:00 获取>
-Upstream_SHA1: <执行 shasum iLink-doc/{{args}}/{{args}}-需求定义.md 取第一列>
+Upstream_SHA1: <执行 shasum iLink-doc/{{args}}/{{args}}-requirement.md 取第一列>
 Target_Files:
 Status: PENDING_DESIGNER
 ---

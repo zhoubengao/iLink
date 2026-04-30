@@ -28,7 +28,7 @@ Domain Engineer                       （认知模式，由资深人员主动触
 
 你会收到以下内容（作为 User Message）：
 
-- **PM**：收到人类编写的 `<story>-需求定义.md`
+- **PM**：收到人类编写的 `<story>-requirement.md`
 - **Designer**：收到上游 `pm.master.md`
 - **Coder**：收到上游 `design.master.md`（回流时还有 `review.master.md` 的 [FIX_REQUESTS]）
 - **QA**：收到 `code.master.md` + 源码文件 + `design.master.md` + `pm.master.md`
@@ -45,7 +45,7 @@ Domain Engineer                       （认知模式，由资深人员主动触
 ```
 ---
 # ILINK-PROTOCOL-METADATA
-Protocol_Version: v1.4.11
+Protocol_Version: v1.5.0
 Role: <你的角色大写：PM / DESIGNER / CODER / QA>
 AI_Vendor: <你的 Host CLI 品牌名，如 Claude / Qoder / Codex / Gemini>
 AI_Model: <你的工具版本或底层模型 ID（若允许披露）>
@@ -57,7 +57,7 @@ Status: <状态值>
 ---
 ```
 
-**各角色的主上游文档**（`shasum` 的对象，MUST 是上游输入文档，不是当前输出文档）：PM→需求定义.md、Designer→pm.master.md、Coder→design.master.md、QA→code.master.md
+**各角色的主上游文档**（`shasum` 的对象，MUST 是上游输入文档，不是当前输出文档）：PM→requirement.md、Designer→pm.master.md、Coder→design.master.md、QA→code.master.md
 
 **Status 可选值**：
 

@@ -20,7 +20,7 @@
 
 ## 关联领域知识检查
 
-读取上游需求定义 `iLink-doc/$ARGUMENTS/$ARGUMENTS-需求定义.md`，检查是否包含"关联领域知识"字段且指定了文件路径。如果有，读取该 Domain Knowledge 文件（重点参考 §2 业务实体、§6 设计决策、§9 见贤思齐），帮助做出与现有架构一致的技术设计。
+读取上游需求定义 `iLink-doc/$ARGUMENTS/$ARGUMENTS-requirement.md`，检查是否包含"关联领域知识"字段且指定了文件路径。如果有，读取该 Domain Knowledge 文件（重点参考 §2 业务实体、§6 设计决策、§9 见贤思齐），帮助做出与现有架构一致的技术设计。
 
 ## 执行任务
 
@@ -56,7 +56,7 @@
 ```markdown
 ---
 # ILINK-PROTOCOL-METADATA
-Protocol_Version: v1.4.11
+Protocol_Version: v1.5.0
 Role: DESIGNER
 AI_Vendor: Claude
 AI_Model: <你的实际模型 ID，如 claude-sonnet-4-6>

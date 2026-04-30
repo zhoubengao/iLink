@@ -2,7 +2,7 @@
 
 > **读者**：使用 iLink 进行日常开发的工程师
 > **前提**：项目已完成 Bootstrap（`project-context.md` 和入口文件已就位）
-> **版本**：v1.4.10
+> **版本**：v1.5.0
 
 ---
 
@@ -34,7 +34,7 @@
 /ilink-init kcia-1520
 
 # ② 编辑需求定义（这是你唯一需要手写的文件）
-#    打开 iLink-doc/kcia-1520/kcia-1520-需求定义.md，填写内容
+#    打开 iLink-doc/kcia-1520/kcia-1520-requirement.md，填写内容
 
 # ③ 启动 AI 流水线
 /ilink-pm kcia-1520          # AI 分析需求，输出业务合同
@@ -212,7 +212,7 @@ ilink-status kcia-1520    # 查看指定 Story 详情
 
 **执行效果**：
 - 创建 `iLink-doc/kcia-1520/` 目录
-- 生成 `kcia-1520-需求定义.md` 模板
+- 生成 `kcia-1520-requirement.md` 模板
 
 **执行后你要做的**：编辑需求定义，填写完整内容。
 
@@ -222,7 +222,7 @@ ilink-status kcia-1520    # 查看指定 Story 详情
 /ilink-pm kcia-1520
 ```
 
-**AI 读取**：需求定义.md + project-context.md
+**AI 读取**：requirement.md + project-context.md
 **AI 输出**：`kcia-1520-pm.master.md`（业务合同）
 
 **业务合同包含**：
@@ -553,11 +553,11 @@ AI 会自动把信息写到 `project-context.md` 的对应章节。
 ```
 iLink-doc/
 ├── kcia-1520/     ← Story A 的所有文档
-│   ├── kcia-1520-需求定义.md
+│   ├── kcia-1520-requirement.md
 │   ├── kcia-1520-pm.master.md
 │   └── ...
 └── kcia-1521/     ← Story B 的所有文档，完全隔离
-    ├── kcia-1521-需求定义.md
+    ├── kcia-1521-requirement.md
     └── ...
 ```
 
@@ -876,7 +876,7 @@ Domain Knowledge 对交付流水线是**可选增强**：
 │   ├── domain/                        ← Domain Knowledge（认知模式）
 │   │   └── <module>-domain-knowledge.md
 │   ├── kcia-1520/
-│   │   ├── kcia-1520-需求定义.md       ← 你写的
+│   │   ├── kcia-1520-requirement.md       ← 你写的
 │   │   ├── kcia-1520-pm.master.md      ← AI 写的
 │   │   ├── kcia-1520-design.master.md  ← AI 写的，你审核的
 │   │   ├── kcia-1520-code.master.md    ← AI 写的

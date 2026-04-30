@@ -87,7 +87,7 @@ Bootstrap 会自动：
 /ilink-init kcia-1520
 
 # 编辑需求定义（你唯一需要手写的文件）
-# 打开 iLink-doc/kcia-1520/kcia-1520-需求定义.md
+# 打开 iLink-doc/kcia-1520/kcia-1520-requirement.md
 
 # 启动 AI 流水线
 /ilink-pm kcia-1520          # AI 需求分析 → 输出业务合同
@@ -136,7 +136,7 @@ git commit -m "kcia-1520: 功能描述（iLink 交付）"
 ### 流水线状态流转
 
 ```
-需求定义.md（人类编写）
+requirement.md（人类编写）
     │ /ilink-pm
     ▼
 pm.master.md [PENDING_DESIGNER | STAGING]
@@ -174,7 +174,7 @@ Command 文件（平台实现，"操作手册"）
 
 | 角色 | 职责 | 输入 | 输出 |
 |------|------|------|------|
-| **PM** | 将需求定义转化为结构化的业务合同 | 需求定义.md | pm.master.md |
+| **PM** | 将需求定义转化为结构化的业务合同 | requirement.md | pm.master.md |
 | **Designer** | 将业务合同转化为技术设计 + 文件级任务清单 | pm.master.md + 源码 | design.master.md |
 | **Coder** | 严格按设计编写代码，直接写入磁盘 | design.master.md + 源码 | 代码文件 + code.master.md |
 | **QA** | AI Code Review，对照设计和验收标准审查代码 | code + design + pm + 源码 | review.master.md |
@@ -208,7 +208,7 @@ Command 文件（平台实现，"操作手册"）
 │
 ├── iLink-doc/                          ← 文档产出（提交到 Git）
 │   ├── <story-id>/                     ← 交付模式：Story 文档
-│   │   ├── <id>-需求定义.md                ← 人类编写
+│   │   ├── <id>-requirement.md                ← 人类编写
 │   │   ├── <id>-pm.master.md              ← AI 输出
 │   │   ├── <id>-design.master.md          ← AI 输出，人类审核
 │   │   ├── <id>-code.master.md            ← AI 输出
@@ -327,10 +327,19 @@ iLink 可以与上述方案共存，为其提供补充能力：
 
 ## 版本
 
-当前版本：**v1.4.10**（正式版）
+当前版本：**v1.5.0**（正式版）
 
 - Root Spec: `iLink-root-spec.md`
 - Implementation Guide: `iLink-implementation-guide.md`
+
+### v1.5.0 破坏性变更
+
+- 需求定义文件名英文化：`<story>-需求定义.md` → `<story>-requirement.md`，统一使用英文文件名
+- v1.5.0 起框架不再识别旧文件名，已有的 Story 需手动改名：
+
+  ```bash
+  mv iLink-doc/<story>/<story>-需求定义.md iLink-doc/<story>/<story>-requirement.md
+  ```
 
 ## 作者
 

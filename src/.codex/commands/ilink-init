@@ -20,7 +20,7 @@ log_info "Initializing story: $story"
 
 mkdir -p "$base_dir"
 
-cat > "$base_dir/${story}-需求定义.md" << 'EOT'
+cat > "$base_dir/${story}-requirement.md" << 'EOT'
 # <story>：<请填写需求标题>
 
 ## 功能描述
@@ -65,16 +65,16 @@ cat > "$base_dir/${story}-需求定义.md" << 'EOT'
 <!-- 无关联时删除本节或留空 -->
 EOT
 
-sed -i.bak "s/<story>/$story/g" "$base_dir/${story}-需求定义.md"
-rm -f "$base_dir/${story}-需求定义.md.bak"
+sed -i.bak "s/<story>/$story/g" "$base_dir/${story}-requirement.md"
+rm -f "$base_dir/${story}-requirement.md.bak"
 
 reset_retry_count "$base_dir"
 
 log_info "Story '$story' initialized successfully"
 echo ""
 echo "工作目录: $base_dir"
-echo "初始文件: ${story}-需求定义.md"
+echo "初始文件: ${story}-requirement.md"
 echo ""
 echo "下一步："
-echo "1. 编辑 $base_dir/${story}-需求定义.md"
+echo "1. 编辑 $base_dir/${story}-requirement.md"
 echo "2. 完成后执行: /ilink-pm $story"

@@ -10,7 +10,7 @@
 
 ## 执行任务
 
-读取需求文件：`iLink-doc/$ARGUMENTS/$ARGUMENTS-需求定义.md`
+读取需求文件：`iLink-doc/$ARGUMENTS/$ARGUMENTS-requirement.md`
 
 如果该文件不存在，提示用户先执行 `/ilink-init $ARGUMENTS` 初始化 Story。
 
@@ -31,18 +31,18 @@
 ```markdown
 ---
 # ILINK-PROTOCOL-METADATA
-Protocol_Version: v1.4.11
+Protocol_Version: v1.5.0
 Role: PM
 AI_Vendor: Claude
 AI_Model: <你的实际模型 ID，如 claude-sonnet-4-6>
 Current_Timestamp: <执行 TZ=Asia/Shanghai date +%Y-%m-%dT%H:%M:%S+08:00 获取实际时间>
-Upstream_SHA1: <执行 shasum iLink-doc/$ARGUMENTS/$ARGUMENTS-需求定义.md 取第一列>
+Upstream_SHA1: <执行 shasum iLink-doc/$ARGUMENTS/$ARGUMENTS-requirement.md 取第一列>
 Target_Files:
 Status: PENDING_DESIGNER
 ---
 ```
 
-> 提示：在输出 Metadata 区块前，先通过 Bash 工具执行 `TZ=Asia/Shanghai date +%Y-%m-%dT%H:%M:%S+08:00` 和 `shasum iLink-doc/$ARGUMENTS/$ARGUMENTS-需求定义.md` 获取真实值后填入，不得留占位符。
+> 提示：在输出 Metadata 区块前，先通过 Bash 工具执行 `TZ=Asia/Shanghai date +%Y-%m-%dT%H:%M:%S+08:00` 和 `shasum iLink-doc/$ARGUMENTS/$ARGUMENTS-requirement.md` 获取真实值后填入，不得留占位符。
 
 ## 完成后
 

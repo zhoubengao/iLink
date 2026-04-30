@@ -176,7 +176,7 @@ iLink 规定每个角色启动前**必须读什么文件**：
 
 | 角色 | 我必须读的文件 | 我从中获得什么 |
 |------|--------------|--------------|
-| PM | 需求定义.md + project-context.md | 业务目标 + 技术边界 |
+| PM | requirement.md + project-context.md | 业务目标 + 技术边界 |
 | Designer | pm.master.md + project-context.md | 业务合同 + 架构约束 |
 | Coder | design.master.md + project-context.md + 源码 | 精确到文件级的任务清单 |
 | QA | 所有 master doc + 源码 | 完整的审查基线 |
